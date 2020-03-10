@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import ItemsGrid from './components/ItemsGrid'
 
 function App() {
   return (
