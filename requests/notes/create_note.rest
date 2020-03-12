@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdyZWVuLWxlYWYiLCJpZCI6IjVlNjhlZGFkZjdlOTU4MDg0OGMxNTMwOSIsImlhdCI6MTU4MzkzNTExN30.k6dIUJFQQNNa6GzgbUrrfDMBqmQYx3YyWK6zB_CYqiM
+
+{    
+	"content": "backend lesson",
+  "important": false
+}

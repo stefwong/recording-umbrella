@@ -3,7 +3,8 @@ import api from './apiConfig'
 export const getItems = async () => {
     try {
         const resp = await api.get('/api/items')
-        return resp.data.items
+        console.log(resp)
+        return resp.data
     } catch (error) {
         throw error
     }

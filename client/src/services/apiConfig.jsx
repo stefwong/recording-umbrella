@@ -5,8 +5,8 @@ const JwtToken = localStorage.getItem('token') || null
 let apiUrl
 
 const apiUrls = {
-    // production: 'https://sei-items-api.herokuapp.com/api',
-    development: 'http://localhost:3004/api'
+    // production: 'https://name.herokuapp.com/api',
+    development: 'http://localhost:3005/'
 }
 
 if (window.location.hostname === 'localhost') {
