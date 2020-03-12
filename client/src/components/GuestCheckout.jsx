@@ -5,37 +5,50 @@ import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    '& > *': {
-      margin: theme.spacing(2),
-      width: 400,
-    },
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center'
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
   },
 }));
 
 
-
-const InventoryForm = (props) => {
+const GuestCheckout = (props) => {
   const classes = useStyles();
   return (
     <>
-      <h2>Add Items</h2>
-      <p>Add to your inventory</p>
+      <h2>Guest Checkout</h2>
+      <p>Checkout while the items are still in stock!</p>
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="item-name"
-          label="Item Name"
+          label="First Name"
           variant="outlined"
           size="small"
         />
         <TextField
           id="item-price"
-          label="Price"
+          label="Last Name"
           variant="outlined"
           size="small" />
         <TextField
-          id="img-link"
           label="Image Link"
           variant="outlined"
+          id="img-link"
+          helperText="Full width!"
+          fullWidth
+          size="small"
+        />
+        <TextField
+          label="Image Link"
+          variant="outlined"
+          id="img-link"
+          helperText="Full width!"
+          fullWidth
           size="small"
         />
         <Button color="primary" variant="contained">ADD TO INVENTORY</Button>
@@ -44,4 +57,4 @@ const InventoryForm = (props) => {
   )
 }
 
-export default InventoryForm
+export default GuestCheckout
