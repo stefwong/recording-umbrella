@@ -7,11 +7,14 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'center'
+    justifyContent: 'space-evenly'
   },
   textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    // marginLeft: theme.spacing(1),
+    // marginRight: theme.spacing(1),
+    // marginTop: theme.spacing(2),
+    // marginBottom: theme.spacing(2),
+    margin: theme.spacing(2),
     width: 200,
   },
 }));
@@ -29,6 +32,8 @@ const GuestCheckout = (props) => {
           label="First Name"
           variant="outlined"
           size="small"
+          style={{ margin: 8 }}
+          margin="normal"
         />
         <TextField
           id="item-price"
