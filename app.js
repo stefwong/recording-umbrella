@@ -3,7 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express()
 const cors = require('cors');
-const notesRouter = require('./controllers/notes');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const itemsRouter = require('./controllers/items')
@@ -27,7 +26,6 @@ app.use(middleware.requestLogger)
 
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
-app.use('/api/notes', notesRouter)
 app.use('/api/items', itemsRouter)
 
 app.use(middleware.unknownEndpoint)
