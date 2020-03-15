@@ -43,7 +43,7 @@ itemsRouter.post('/', async (req, res, next) => {
         if (!token || !decodedToken.id) {
             return res.status(401).json({ error: 'token missing or invalid' })
         }
-
+        
         const user = await User.findById(decodedToken.id)
 
         const item = new Item({
@@ -59,6 +59,44 @@ itemsRouter.post('/', async (req, res, next) => {
         user.items = user.items.concat(savedItem._id)
         await user.save()
         res.json(savedItem.toJSON())
+    } catch (e) {
+        next(e)
+    }
+})
+
+itemsRouter.post('/buy/:id', async (req, res, next) => {
+    const { id } = req.params
+    const token = getTokenFrom(req)
+
+    try {
+        const decodedToken = jwt.verify(token, process.env.SECRET)
+
+        if (!token || !decodedToken.id) {
+            return res.status(401).json({ error: 'token missing or invalid' })
+        }
+        
+        const user = await User.findById(decodedToken.id)
+
+        const item = await Item.findById(id)
+        if (item) {
+            const ownerId = item.owner
+            const itemOwner = await User.findById(ownerId)
+            itemOwner.items = itemOwner.items.filter(itm => {
+                return itm._id.toString() !== item._id.toString()
+            })
+            await itemOwner.save()
+
+            item.soldBy = item.soldBy.concat(ownerId)
+            item.owner = user._id
+
+            user.items = user.items.concat(item._id)
+            await user.save()
+            
+            const itemPurchased = await item.save()
+            res.json(itemPurchased.toJSON())
+        } else {
+            res.status(404).end()
+        }
     } catch (e) {
         next(e)
     }

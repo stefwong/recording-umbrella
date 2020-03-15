@@ -5,8 +5,6 @@ const User = require('../models/user');
 usersRouter.get('/', async (req, res) => {
   const users = await User
     .find({})
-  // const users = await User
-  //   .find({}).populate('items', { price: 1, img: 1 })
 
   res.json(users.map(u => u.toJSON()))
 })
