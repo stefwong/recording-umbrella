@@ -12,6 +12,10 @@ import {
 } from "react-router-dom";
 import UserStoreFrontEdit from './screens/UserStoreFrontEdit';
 import MarketPlaceSearchResults from './screens/MarketPlaceSearchResults';
+import InventoryForm from './components/InventoryForm'
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import GuestCheckout from './components/GuestCheckout'
 
 function App() {
 
@@ -30,6 +34,12 @@ function App() {
         </Switch>
       </Router>
 
+      {/* Survival App */}
+      <>
+        {/* <ItemsScreen /> */}
+        {/* <InventoryForm /> */}
+        <GuestCheckout />
+      </>
     </div>
   );
 }
