@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const usersRouter = require('express').Router()
 const User = require('../models/user');
-const Item = require('../models/item');
 
 usersRouter.get('/', async (req, res) => {
   const users = await User
@@ -27,7 +26,7 @@ usersRouter.get('/:id', async (req, res, next) => {
 })
 
 usersRouter.post('/', async (req, res, next) => {
-  const { body: { username, name, password } } = req
+  const { body: { username, name, password, avatar } } = req
   
   try {
     const saltRounds = 10
@@ -36,7 +35,8 @@ usersRouter.post('/', async (req, res, next) => {
     const user = new User({
       username,
       name,
-      passwordHash
+      passwordHash,
+      avatar: avatar || 'https://ui-avatars.com/api/?name=Dummy+Avatar'
     })
 
     const savedUser = await user.save()
@@ -46,7 +46,6 @@ usersRouter.post('/', async (req, res, next) => {
     next(e)
   }
 })
-
 
 usersRouter.put('/', async (req, res, next) => {
   const { body: { username, password, newPassword } } = req

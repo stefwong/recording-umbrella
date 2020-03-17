@@ -10,17 +10,20 @@ const plant = async () => {
   const saltRounds = 10
 
   for (let i=0; i<100; i++) {
-    const passwordHash = await bcrypt.hash("'", saltRounds)
+    const passwordHash = await bcrypt.hash("pass", saltRounds)
     
     let username = ''
     while (username.length <= 8) {
       username = faker.internet.userName()
     }
+    const name = faker.name.findName()
+    const words = name.split(' ')
 
     const newUser = {
       username,
-      name: faker.name.findName(),
-      passwordHash
+      name,
+      passwordHash,
+      avatar: `https://ui-avatars.com/api/?name=${words[0][0]}+${words[1][0].toUpperCase()}`
     }
 
     newUsers.push(newUser)

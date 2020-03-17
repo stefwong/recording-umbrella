@@ -6,7 +6,7 @@ const db = require('../db')
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 const plant = async () => {
-  const rootUserId = '5e703d44c0877774237f63fb'
+  const rootUserId = '5e712deb806f982c7365c458'
   const rootUser = await User.findById(rootUserId)
   
   const newItems = []
@@ -18,7 +18,7 @@ const plant = async () => {
     const item = new Item({ 
       name: faker.commerce.productName(),
       description: faker.commerce.productAdjective(),
-      price: faker.random.number(21000),
+      price: faker.random.number(210),
       imgUrl: `${imgUrl}/${randomImgId}/200/300.jpg`,
       category: 'misc',
       ownerId: rootUserId

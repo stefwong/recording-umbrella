@@ -4,5 +4,6 @@ Content-Type: application/json
 {    
 	"username": "root0001",
 	"name": "Bar Soap",
-	"password": "pass"
+	"password": "pass",
+	"avatar": "https://ui-avatars.com/api/?name=Root+User"
 }

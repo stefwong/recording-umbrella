@@ -102,7 +102,6 @@ itemsRouter.post('/buy/:id', async (req, res, next) => {
     }
 })
 
-
 itemsRouter.put('/:id', async (req, res, next) => {
     const { body: { name, description, price, img } } = req
     const { id } = req.params
