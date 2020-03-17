@@ -37,6 +37,10 @@
   }
 }
 
+.form-container {
+  width: 50%;
+  margin: 2% auto;
+}
 
 #root > div > div.makeStyles-grow-1 > header > div > button > span.MuiIconButton-label > a > svg > path {
   color: white;
