@@ -1,68 +1,47 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import ItemsGrid from './components/ItemsGrid'
 import ItemsScreen from './screens/ItemsScreen'
-import InventoryForm from './components/InventoryForm'
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import GuestCheckout from './components/GuestCheckout'
-import ItemCreate from './screens/ItemCreate'
-import SignUp from './components/SignUp'
-import ResetPassword from './components/ResetPassword'
+import PrimarySearchAppBar from './components/PrimarySearchAppBar';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+  Link
+} from "react-router-dom";
+import UserStoreFrontEdit from './screens/UserStoreFrontEdit';
+import GuestCheckout from './components/GuestCheckout';
 
-class App extends Component {
-  constructor() {
-    super()
-    this.state = {
-      formData: {
-        itemName: '',
-        itemDescription: '',
-        itemPrice: 0,
-        imgLink: '',
-        emailAddress: '',
-        inputPassword: '',
-        category: ''
-      }
-    }
+function App() {
+
+  const [shoppingCartItemsCount, setShoppingCartItemsCount] = useState(0)
+  const handleShoppingCartUpdated = () => {
+    setShoppingCartItemsCount(shoppingCartItemsCount + 1)
   }
-  handleSubmit = (event) => {
-    event.preventDefault()
-  }
-  onChange = (event) => {
-    if (event.target.name === 'itemPrice') {
-      let value = event.target.value
-      let name = event.target.name
-      this.setState(prevState => ({
-        formData: {
-          ...prevState.formData,
-          [name]: parseInt(value)
-        }
-      }))
-    }
-    else {
-      let value = event.target.value
-      let name = event.target.name
-      this.setState(prevState => ({
-        formData: {
-          ...prevState.formData,
-          [name]: value
-        }
-      }))
-    }
-  }
-  render() {
-    return (
-      <div className="App">
-        {/* Survival App */}
-        <>
-          <ItemCreate />
-          {/* <ItemsScreen /> */}
-          {/* <InventoryForm handleSubmit={this.handleSubmit} onChange={this.onChange} /> */}
-          {/* <GuestCheckout /> */}
-        </>
-      </div>
-    );
-  }
+
+  return (
+    <>
+    <div className="App">
+      <Router>
+        <PrimarySearchAppBar shoppingCartItemsCount={shoppingCartItemsCount}/>
+        <Switch>
+          <Route exact path="/GuestCheckout" render={props => (<GuestCheckout {...props} />)} />
+          <Route exact path="/UserStoreFrontEdit" render={props => (<UserStoreFrontEdit {...props} />)} />
+          <Route exact path="/home" render={props => (<ItemsScreen handleShoppingCartUpdated={handleShoppingCartUpdated} {...props} />)} />
+          <Route exact path="/ItemsScreen/:searchText" render={props => (<ItemsScreen {...props} />)} />
+          <Route path="/" render={props => (<ItemsScreen handleShoppingCartUpdated={handleShoppingCartUpdated} {...props} />)} />
+        </Switch>
+      </Router>
+
+      {/* Survival App */}
+      {/* <> */}
+      {/* <ItemsScreen /> */}
+      {/* <InventoryForm /> */}
+      {/* <GuestCheckout /> */}
+      {/* </> */}
+    </div>
+    </>
+  );
 }
 
 export default App;

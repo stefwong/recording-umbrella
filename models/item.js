@@ -1,20 +1,31 @@
 const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
 
 const itemSchema = mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true
+  },
   description: String,
-  price: Number,
+  price: {
+    type: Number,
+    default: 1
+  },
   img: String,
-  userId: 
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-    }
-  ,
+  date: Date,
+  category: String,
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  forSale: {
+    type: Boolean,
+    default: false
+  },
+  soldBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }]
 })
-
-itemSchema.plugin(uniqueValidator)
 
 itemSchema.set('toJSON', {
   transform: (document, returnedObj) => {
