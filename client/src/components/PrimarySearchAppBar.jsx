@@ -160,7 +160,7 @@ export default function PrimarySearchAppBar(props) {
 
           <IconButton>
             <AccountCircle>
-            </AccountCircle >
+            </AccountCircle>
           </IconButton>
           <p>Profile</p>
 
