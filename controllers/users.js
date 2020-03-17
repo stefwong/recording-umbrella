@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const usersRouter = require('express').Router()
 const User = require('../models/user');
+const Item = require('../models/item');
 
 usersRouter.get('/', async (req, res) => {
   const users = await User
@@ -35,7 +36,7 @@ usersRouter.post('/', async (req, res, next) => {
     const user = new User({
       username,
       name,
-      passwordHash      
+      passwordHash
     })
 
     const savedUser = await user.save()
@@ -46,13 +47,14 @@ usersRouter.post('/', async (req, res, next) => {
   }
 })
 
+
 usersRouter.put('/', async (req, res, next) => {
   const { body: { username, password, newPassword } } = req
 
   const user = await User.findOne({ username })
-  const passwordCorrect = 
-  user === null ? false
-    : await bcrypt.compare(password, user.passwordHash)
+  const passwordCorrect =
+    user === null ? false
+      : await bcrypt.compare(password, user.passwordHash)
 
   if (!(user && passwordCorrect)) {
     return res.status(401).json({
@@ -66,7 +68,7 @@ usersRouter.put('/', async (req, res, next) => {
   const newUser = {
     username,
     name: user.name,
-    passwordHash      
+    passwordHash
   }
 
   try {

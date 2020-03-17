@@ -5,7 +5,8 @@ const app = express()
 const cors = require('cors');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
-const itemsRouter = require('./controllers/items')
+const itemsRouter = require('./controllers/items');
+const seedRouter = require('./controllers/seed');
 const middleware = require('./utils/middleware');
 const mongoose = require('mongoose');
 const logger = require('./utils/logger');
@@ -27,6 +28,7 @@ app.use(middleware.requestLogger)
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/items', itemsRouter)
+app.use('/api/seed', seedRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)

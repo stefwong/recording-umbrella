@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+
+#root > div > div.makeStyles-grow-1 > header > div > button > span.MuiIconButton-label > a > svg > path {
+  color: white;
+}
+
+#root > div > div.makeStyles-grow-1 > header > div {
+
+background-color: #333;
+}
+
+#root > div > div.makeStyles-grow-1 > header > div > div.makeStyles-search-4 {
+  border-radius: 50px;
+}
