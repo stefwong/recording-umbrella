@@ -13,7 +13,7 @@ const getTokenFrom = req => {
 
 itemsRouter.get('/', async (req, res) => {
     const items = await Item
-        .find({}).populate('owner')
+        .find({})
 
     res.json(items.map(itm => itm.toJSON()))
 })
