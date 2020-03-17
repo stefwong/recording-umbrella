@@ -36,7 +36,7 @@ itemsRouter.get('/:id', async (req, res, next) => {
 itemsRouter.post('/', async (req, res, next) => {
     const { body: { name, description, price, img } } = req
     const token = getTokenFrom(req)
-
+    
     try {
         const decodedToken = jwt.verify(token, process.env.SECRET)
 
@@ -52,7 +52,7 @@ itemsRouter.post('/', async (req, res, next) => {
             price,
             img,
             date: new Date(),
-            owner: user._id
+            ownerId: user._id
         })
 
         const savedItem = await item.save()
@@ -67,10 +67,10 @@ itemsRouter.post('/', async (req, res, next) => {
 itemsRouter.post('/buy/:id', async (req, res, next) => {
     const { id } = req.params
     const token = getTokenFrom(req)
-
+    
     try {
         const decodedToken = jwt.verify(token, process.env.SECRET)
-
+        
         if (!token || !decodedToken.id) {
             return res.status(401).json({ error: 'token missing or invalid' })
         }
@@ -79,15 +79,15 @@ itemsRouter.post('/buy/:id', async (req, res, next) => {
 
         const item = await Item.findById(id)
         if (item) {
-            const ownerId = item.owner
-            const itemOwner = await User.findById(ownerId)
+            const { ownerId } = item
+            const itemOwner = await User.findById(ownerId.toString())
             itemOwner.items = itemOwner.items.filter(itm => {
                 return itm._id.toString() !== item._id.toString()
             })
             await itemOwner.save()
 
             item.soldBy = item.soldBy.concat(ownerId)
-            item.owner = user._id
+            item.ownerId = user._id
 
             user.items = user.items.concat(item._id)
             await user.save()
@@ -101,6 +101,7 @@ itemsRouter.post('/buy/:id', async (req, res, next) => {
         next(e)
     }
 })
+
 
 itemsRouter.put('/:id', async (req, res, next) => {
     const { body: { name, description, price, img } } = req
@@ -128,6 +129,15 @@ itemsRouter.delete('/:id', async (req, res, next) => {
     
     try {
         await Item.findByIdAndDelete(id)
+        res.status(204).end()
+    } catch (e) {
+        next(e)
+    }
+})
+
+itemsRouter.delete('/', async (req, res, next) => {
+    try {
+        await Item.deleteMany()
         res.status(204).end()
     } catch (e) {
         next(e)

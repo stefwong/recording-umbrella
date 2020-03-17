@@ -15,11 +15,7 @@ const userSchema = mongoose.Schema({
   items: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Item'
-  }],
-  // itemsBought: [{
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'Item'
-  // }]
+  }]
 })
 
 userSchema.plugin(uniqueValidator)

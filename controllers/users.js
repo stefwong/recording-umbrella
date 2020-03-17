@@ -26,9 +26,9 @@ usersRouter.get('/:id', async (req, res, next) => {
 })
 
 usersRouter.post('/', async (req, res, next) => {
+  const { body: { username, name, password } } = req
+  
   try {
-    const { body: { username, name, password } } = req
-
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(password, saltRounds)
 
@@ -72,6 +72,15 @@ usersRouter.put('/', async (req, res, next) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(user._id, newUser, { new: true, runValidators: true, context: 'query' })
     res.json(updatedUser.toJSON())
+  } catch (e) {
+    next(e)
+  }
+})
+
+usersRouter.delete('/', async (req, res, next) => {
+  try {
+    await User.deleteMany()
+    res.status(204).end()
   } catch (e) {
     next(e)
   }
