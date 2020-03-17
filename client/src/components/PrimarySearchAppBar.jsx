@@ -16,7 +16,8 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Link } from 'react-router-dom';
 
 
-//To do: categories
+
+
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -38,9 +39,10 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing(4),
-    marginLeft: 0,
-    width: '60%',
+  
+    marginRight: theme.spacing(0),
+    marginLeft: 1,
+    width: '50%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
       width: 'auto',
@@ -57,9 +59,10 @@ const useStyles = makeStyles(theme => ({
   },
   inputRoot: {
     color: 'inherit',
+
   },
   inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
+    padding: theme.spacing(1, 1, 1, 1),
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
@@ -82,9 +85,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function PrimarySearchAppBar(props) {
   const [searchText, setSearchText] = useState("");
+
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -110,6 +115,7 @@ export default function PrimarySearchAppBar(props) {
     setSearchText(event.target.value);
   }
 
+ 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -137,14 +143,18 @@ export default function PrimarySearchAppBar(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <ShoppingCartIcon />
-          </Badge>
-        </IconButton>
-        <p>Shopping Cart</p>
-      </MenuItem>
+      <Link to="/GuestCheckout">
+        <MenuItem>
+
+          <IconButton aria-label="new items added to cart" color="inherit">
+            <Badge badgeContent={props.shoppingCartItemsCount} color="secondary">
+              <ShoppingCartIcon />
+            </Badge>
+
+          </IconButton>
+          <p>Shopping Cart</p>
+        </MenuItem>
+      </Link>
       <Link to="/UserStoreFrontEdit">
         <MenuItem >
 
@@ -163,24 +173,18 @@ export default function PrimarySearchAppBar(props) {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton>
+          <IconButton >
             <Link to="/">
               <StoreIcon />
             </Link>
           </IconButton>
 
           <Typography className={classes.title} variant="h6" noWrap>
-            Survival Market
+             The Survival Market
           </Typography>
 
           <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <Link to={`/MarketPlaceSearch/${searchText}`}>
-                <IconButton >
-                  <SearchIcon />
-                </IconButton>
-              </Link>
-            </div>
+    
 
             <InputBase
               onChange={handleSearchOnChange}
@@ -193,21 +197,26 @@ export default function PrimarySearchAppBar(props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          <Link to={`/MarketPlaceSearchResults/${searchText}`}>
+          <Link to={`/ItemsScreen/${searchText}`}>
             <IconButton >
               <SearchIcon />
             </IconButton>
           </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 17 items" color="inherit">
-              <Badge badgeContent={17} color="secondary">
+          <Link to="/GuestCheckout">
+        
+            <IconButton aria-label="new items added to cart" color="inherit">
+              <Badge badgeContent={props.shoppingCartItemsCount} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
+            </Link>
             <Link to="UserStoreFrontEdit"
             >
+              <IconButton>
               < AccountCircle />
+              </IconButton>
             </Link>
           </div>
           <div className={classes.sectionMobile}>
