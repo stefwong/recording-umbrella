@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,6 +13,13 @@ const useStyles = makeStyles(theme => ({
       margin: theme.spacing(2),
       width: 400,
     },
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
   },
 }));
 
@@ -27,7 +35,7 @@ const ItemForm = ({
 
   return (
     <div className='form-container'>
-      <form
+      <FormControl
         onSubmit={handleSubmit}
         className={classes.root}
         noValidate autoComplete="off">
@@ -79,7 +87,7 @@ const ItemForm = ({
           name="imgLink"
         />
         <Button color="primary" variant="contained">ADD TO INVENTORY</Button>
-      </form>
+      </FormControl>
     </div>
   )
 }
