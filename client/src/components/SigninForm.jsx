@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
 
-const SigninForm = ({ username, password, newPassword, handleUsernameChange, handlePasswordChange, handleSubmit, history }) => {
-  const [forgot, setForgot] = false
+const SigninForm = ({ username, password, newPassword, handleUsernameChange, handleNewPasswordChange, handlePasswordChange, handleSubmit, handleUpdateAccount, history }) => {
+  const [forgot, setForgot] = useState(false)
 
   const submitHandler = (e) => {
     e.preventDefault()
-    handleSubmit()
-      .then(() => history.push('/'))
+    if (!forgot) {
+      handleSubmit()
+        .then(() => history.push('/'))
+        .catch(error => console.error(error))
+    } else {
+      handleUpdateAccount()
+      .then(() => {
+        setForgot(false)
+      })
       .catch(error => console.error(error))
-  }
-
-  const forgotPassword = () => {
-
+    }
   }
 
   return (
@@ -25,8 +29,15 @@ const SigninForm = ({ username, password, newPassword, handleUsernameChange, han
           password
           <input type='password' value={password} onChange={handlePasswordChange} />
         </div>
-        <button type='submit'>Log In</button>
-        {!forgot && <button onClick={() => setForgot(true)}>Forgot My Password</button>}
+        {
+          forgot && 
+          <div>
+            new password
+            <input type='password' value={newPassword} onChange={handleNewPasswordChange} />
+          </div>
+        }
+        <button type='submit'>{!forgot ? 'Log In' : 'Update'}</button>
+        <span onClick={() => setForgot(!forgot)}>Forgot My Password</span>
       </form>
     </>
   )

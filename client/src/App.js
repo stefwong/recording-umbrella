@@ -59,6 +59,23 @@ function App() {
     }
   }
   
+  const handleUpdateAccount = async () => {
+    const userObj = {
+      username, 
+      password,
+      newPassword
+    }
+
+    try {
+      await userService.update(userObj)
+      setUsername('')
+      setPassword('')
+      setNewPassword('')
+    } catch (error) {
+      throw error
+    }
+  }
+
   const handleSignUp = async () => {
     const userObj = {
       username,
@@ -79,16 +96,25 @@ function App() {
     }
   }
 
+  const handleLogOut = async () => {
+    try {
+      await localStorage.clear()
+      setUser(null)
+    } catch (error) {
+      throw error
+    }
+  }
+
   return (
     <>
       <Router>
-        <PrimarySearchAppBar user={user} shoppingCartItemsCount={shoppingCartItemsCount}/>
+        <PrimarySearchAppBar user={user} shoppingCartItemsCount={shoppingCartItemsCount} handleLogOut={handleLogOut} />
         <Switch>
           <Route exact path='/signup' render={props => (
             <SignupForm {...props} username={username} password={password} name={name} handlePasswordChange={handlePasswordChange} handleUsernameChange={handleUsernameChange} handleNameChange={handleNameChange} handleSubmit={handleSignUp} />
           )} />
           <Route exact path='/signin' render={props => (
-            <SigninForm {...props} username={username} newPassword={newPassword} password={password} handlePasswordChange={handlePasswordChange} handleUsernameChange={handleUsernameChange} handleSubmit={handleLogin} />
+            <SigninForm {...props} username={username} newPassword={newPassword} password={password} handlePasswordChange={handlePasswordChange} handleNewPasswordChange={handleNewPasswordChange} handleUsernameChange={handleUsernameChange} handleSubmit={handleLogin} handleUpdateAccount={handleUpdateAccount}/>
           )} />
           <Route exact path="/GuestCheckout" render={props => (<GuestCheckout {...props} />)} />
           <Route exact path="/UserStoreFrontEdit" render={props => (<UserStoreFrontEdit {...props} />)} />

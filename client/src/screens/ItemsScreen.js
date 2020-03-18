@@ -9,9 +9,6 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import itemService from '../services/items';
 import shoppingCartService from '../util/ShoppingCartService';
 import Button from '@material-ui/core/Button';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -30,16 +27,7 @@ export default function ItemsScreen(props) {
     const [items, setItems] = useState([])
 
     const classes = useStyles();
-    // useEffect(() => {
-    //     const getData = async () => {
-    //         const itemsTemp = itemService.
-    //         setItems(itemsTemp)
-    //         console.log(itemsTemp)
-    //     }
-    //     // call to getItems()
-    //     getData()
 
-    // }, [])
     const itemsHook = () => {
         itemService.getAll()
             .then(res => setItems(res))
@@ -47,8 +35,9 @@ export default function ItemsScreen(props) {
     useEffect(itemsHook, [])
 
     if (!items) {
-        return null
+        return <h2>Loading...</h2>
     }
+    
     const addItem = (item) => {
         // adds item to shopping cart
         shoppingCartService.addItem(item, () => {
