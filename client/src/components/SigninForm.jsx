@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 const SigninForm = ({ username, password, newPassword, handleUsernameChange, handlePasswordChange, handleSubmit, history }) => {
-  const [forgot, setForgot] = false
+  const [forgot, setForgot] = useState(false)
 
   const submitHandler = (e) => {
     e.preventDefault()
