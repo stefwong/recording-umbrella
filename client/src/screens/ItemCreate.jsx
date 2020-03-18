@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import ItemForm from '../components/ItemForm'
-// import Layout from '../components/shared/Layout'
-import { createItem } from '../services/items'
+import { create } from '../services/items'
 
 class ItemCreate extends Component {
   constructor(props) {
     super(props)
-    
+
     this.state = {
       item: {
         itemName: '',
@@ -26,18 +25,18 @@ class ItemCreate extends Component {
     if (event.target.name === 'itemPrice') {
       const updatedField = { [event.target.name]: parseInt(event.target.value) }
       const editedItem = Object.assign(this.state.item, updatedField)
-      this.setState({item: editedItem})
+      this.setState({ item: editedItem })
     }
     else {
       const updatedField = { [event.target.name]: event.target.value }
       const editedItem = Object.assign(this.state.item, updatedField)
-      this.setState({item: editedItem}) 
+      this.setState({ item: editedItem })
     }
   }
   handleSubmit = async (event) => {
     event.preventDefault()
 
-    const response = await createItem(this.state.item)
+    const response = await create(this.state.item)
     if (response.status === 201) {
       this.props.addItem(response.data)
       this.setState({
@@ -51,15 +50,15 @@ class ItemCreate extends Component {
     const { history } = this.props
 
     if (createdItem) {
-      return <Redirect to={`/items`} />
+      return <Redirect to={`/ItemsScreen`} />
     }
     return (
       <ItemForm
-      item={item}
-      history={history}
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-      cancelPath="/"
+        item={item}
+        history={history}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        cancelPath="/"
       />
     )
   }
