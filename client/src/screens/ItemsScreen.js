@@ -53,12 +53,12 @@ export default function ItemsScreen(props) {
 
                 {items.filter(item => {
                     // runs items through the filter, then maps
-                    console.log(item + " " + props.match.params.searchText);
+                    console.log(item.name + " " + props.match.params.searchText);
                     // if nothing is entered, returns all items
                     // if search is defined, i.e. user enters search text, then filter using the search text
                     return (typeof props.match.params.searchText === 'undefined' ||
                         props.match.params.searchText === '' ||
-                        item.name.includes(props.match.params.searchText))
+                        item.name.toLowerCase().includes(props.match.params.searchText.toLowerCase()))
                 }).map(item => (
                     <GridListTile key={item.id} cols={1}>
                         <img src={item.imgUrl} alt={item.name} />
