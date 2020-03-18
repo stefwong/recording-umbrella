@@ -31,12 +31,13 @@ usersRouter.post('/', async (req, res, next) => {
   try {
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(password, saltRounds)
+    const words = name.split(' ')
 
     const user = new User({
       username,
       name,
       passwordHash,
-      avatar: avatar || 'https://ui-avatars.com/api/?name=Dummy+Avatar'
+      avatar: `https://ui-avatars.com/api/?name=${words[0][0]}+${words[1][0].toUpperCase()}`
     })
 
     const savedUser = await user.save()

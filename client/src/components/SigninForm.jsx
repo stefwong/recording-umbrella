@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const SignupForm = ({ username, name, password, handleUsernameChange, handlePasswordChange, handleNameChange, handleSubmit, history }) => {
+const SigninForm = ({ username, password, newPassword, handleUsernameChange, handlePasswordChange, handleSubmit, history }) => {
+  const [forgot, setForgot] = false
+
   const submitHandler = (e) => {
     e.preventDefault()
     handleSubmit()
       .then(() => history.push('/'))
       .catch(error => console.error(error))
+  }
+
+  const forgotPassword = () => {
+
   }
 
   return (
@@ -16,17 +22,14 @@ const SignupForm = ({ username, name, password, handleUsernameChange, handlePass
           <input value={username} onChange={handleUsernameChange} />
         </div>
         <div>
-          name
-          <input value={name} onChange={handleNameChange} />
-        </div>
-        <div>
           password
           <input type='password' value={password} onChange={handlePasswordChange} />
         </div>
-        <button type='submit'>Sign Up</button>
+        <button type='submit'>Log In</button>
+        {!forgot && <button onClick={() => setForgot(true)}>Forgot My Password</button>}
       </form>
     </>
   )
 }
 
-export default SignupForm
+export default SigninForm
