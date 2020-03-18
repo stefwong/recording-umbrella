@@ -3,7 +3,8 @@ import React from 'react'
 function LandingPage(){
 
     return(
-      <h1>Landing Page Test</h1>
+      <h1>Survival Kit App</h1>
+      <img src=
   
     )
   }
