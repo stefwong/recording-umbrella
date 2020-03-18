@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import ItemsScreen from './screens/ItemsScreen'
+import ItemDetail from './screens/ItemDetail'
 import PrimarySearchAppBar from './components/PrimarySearchAppBar';
 import {
   BrowserRouter as Router,
@@ -118,9 +119,12 @@ function App() {
           )} />
           <Route exact path="/GuestCheckout" render={props => (<GuestCheckout {...props} />)} />
           <Route exact path="/UserStoreFrontEdit" render={props => (<UserStoreFrontEdit {...props} />)} />
-          <Route exact path="/home" render={props => (<ItemsScreen handleShoppingCartUpdated={handleShoppingCartUpdated} {...props} />)} />
+          {/* <Route exact path="/home" render={props => (<ItemsScreen handleShoppingCartUpdated={handleShoppingCartUpdated} {...props} />)} /> */}
           <Route exact path="/ItemsScreen/:searchText" render={props => (<ItemsScreen {...props} />)} />
-          <Route path="/" render={props => (<ItemsScreen handleShoppingCartUpdated={handleShoppingCartUpdated} {...props} />)} />
+          <Route exact path="/" render={props => (<ItemsScreen handleShoppingCartUpdated={handleShoppingCartUpdated} {...props} />)} />
+          <Route path='/ItemDetail/:id' render={props => (
+            <ItemDetail {...props} />
+          )} />
         </Switch>
       </Router>
 

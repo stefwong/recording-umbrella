@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getById } from '../services/items'
+import itemService from '../services/items'
 
 class ItemDetail extends Component {
   constructor(props) {
@@ -20,7 +20,8 @@ class ItemDetail extends Component {
   }
   async componentDidMount() {
     try {
-      const item = await getById(this.props.match.params.id)
+      console.log(this.props.match.params.id)
+      const item = await itemService.getById(this.props.match.params.id)
       this.setState({ item })
     } catch (err) {
       console.error(err)
@@ -28,19 +29,28 @@ class ItemDetail extends Component {
   }
   render() {
     const { name, description, price, category, ownerId, forSale, imgUrl, date } = this.state.item;
-    (item.name === '') ? itemDisplay = (
-      <div>
-        <h3>Name: {name}</h3>
-        <div className="description">Description: {description}</div>
-        <div className="item-info">Price: {price}</div>
-        <div className="item-info">Date: {date}</div>
-        <div className="img"><img src={imgUrl} alt="Item image" /></div>
-        <div className="category">Category: {category}</div>
-        <div className="item-info">Owner ID: {ownerId}</div>
-        <div className="item-info">Sale status: {forSale}</div>
-      </div >) : itemDisplay = <div>Loading...</div>
+    console.log(this.props)
+    const displayItem = () => {
+      return name ? (
+        <div>
+          <h3>Name: {name}</h3>
+          <div className="description">Description: {description}</div>
+          <div className="item-info">Price: {price}</div>
+          <div className="item-info">Date: {date}</div>
+          <div className="img"><img src={imgUrl} alt="Item" /></div>
+          <div className="category">Category: {category}</div>
+          <div className="item-info">Owner ID: {ownerId}</div>
+          <div className="item-info">Sale status: {forSale}</div>
+        </div>
+      ) : (
+        <div>Loading...</div>
+      )
+    }
+
     return (
-      { itemDisplay }
+      <>
+        { displayItem() }
+      </>
     )
   }
 }

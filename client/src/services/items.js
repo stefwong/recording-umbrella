@@ -12,8 +12,8 @@ const getAll = () => {
     return req.then(res => res.data)
 }
 
-const getById = id => {
-    const req = axios.get(`${baseUrl}/${id}`)
+const getById = async id => {
+    const req = await axios.get(`${baseUrl}/${id}`)
     return req.then(res => res.data)
 }
 

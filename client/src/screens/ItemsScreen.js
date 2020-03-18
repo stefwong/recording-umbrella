@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -61,7 +63,9 @@ export default function ItemsScreen(props) {
                         item.name.includes(props.match.params.searchText))
                 }).map(item => (
                     <GridListTile key={item.id} cols={1}>
-                        <img src={item.imgUrl} alt={item.name} />
+                        <Link to={`/ItemDetail/${item.id}`}>
+                            <img src={item.imgUrl} alt={item.name} />
+                        </Link>
                         <GridListTileBar
                             title={
                                 `${item.name} `}
