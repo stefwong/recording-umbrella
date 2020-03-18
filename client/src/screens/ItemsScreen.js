@@ -63,7 +63,7 @@ export default function ItemsScreen(props) {
                         item.name.includes(props.match.params.searchText))
                 }).map(item => (
                     <GridListTile key={item.id} cols={1}>
-                        <Link to={`/ItemDetail/${item.id}`}>
+                        <Link to={`/${item.id}`}>
                             <img src={item.imgUrl} alt={item.name} />
                         </Link>
                         <GridListTileBar

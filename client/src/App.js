@@ -10,8 +10,7 @@ import {
 } from "react-router-dom";
 import UserStoreFrontEdit from './screens/UserStoreFrontEdit';
 import GuestCheckout from './components/GuestCheckout';
-// import SignIn from './components/SignIn'
-// import SignUp from './components/SignUp'
+
 import SignupForm from './components/SignupForm'
 import SigninForm from './components/SigninForm'
 
@@ -122,7 +121,7 @@ function App() {
           {/* <Route exact path="/home" render={props => (<ItemsScreen handleShoppingCartUpdated={handleShoppingCartUpdated} {...props} />)} /> */}
           <Route exact path="/ItemsScreen/:searchText" render={props => (<ItemsScreen {...props} />)} />
           <Route exact path="/" render={props => (<ItemsScreen handleShoppingCartUpdated={handleShoppingCartUpdated} {...props} />)} />
-          <Route path='/ItemDetail/:id' render={props => (
+          <Route path='/:id' render={props => (
             <ItemDetail {...props} />
           )} />
         </Switch>
