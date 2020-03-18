@@ -86,9 +86,9 @@ export default function ItemsScreen(props) {
 
 
                                 <IconButton onClick={() => { addItem(item) }} aria-label={`info about ${item.name}`} className={classes.icon}>
-                                    <ListItemAvatar>
-                                        {/* <Avatar alt="Profile Picture" src={item.owner.avatar} /> */}
-                                    </ListItemAvatar>
+                                    {/* <ListItemAvatar>
+                                        <Avatar alt="Profile Picture" src={item.owner.avatar} />
+                                    </ListItemAvatar> */}
 
                                     <Button variant="contained"
                                         className={classes.button}
