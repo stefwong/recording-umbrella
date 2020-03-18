@@ -9,9 +9,10 @@ import {
 } from "react-router-dom";
 import UserStoreFrontEdit from './screens/UserStoreFrontEdit';
 import GuestCheckout from './components/GuestCheckout';
-import SignIn from './components/SignIn'
-import SignUp from './components/SignUp'
+// import SignIn from './components/SignIn'
+// import SignUp from './components/SignUp'
 import SignupForm from './components/SignupForm'
+import SigninForm from './components/SigninForm'
 
 import itemService from './services/items'
 import userService from './services/users'
@@ -45,18 +46,20 @@ function App() {
 	const handlePasswordChange = ({ target: { value } }) => setPassword(value)
 	const handleNewPasswordChange = ({ target: { value } }) => setNewPassword(value)
 
-  const handleLogin = async (e) => {
-    e.preventDefault()
+  const handleLogin = async () => {
     try {
       const user = await loginService.login({ username, password })
+      window.localStorage.setItem('loggedInUser', JSON.stringify(user))
+      itemService.setToken(user.token)
+      setUser(user)
+      setUsername('')
+      setPassword('')
     } catch (error) {
       throw error
     }
   }
   
-  const handleSignUp = async (e) => {
-    e.preventDefault()  
-
+  const handleSignUp = async () => {
     const userObj = {
       username,
       password,
@@ -76,20 +79,16 @@ function App() {
     }
   }
 
-  if (user) {
-    console.log(Object.keys(user))
-  }
-
   return (
     <>
       <Router>
         <PrimarySearchAppBar user={user} shoppingCartItemsCount={shoppingCartItemsCount}/>
         <Switch>
           <Route exact path='/signup' render={props => (
-            <SignupForm {...props} user={user} username={username} password={password} name={name} handlePasswordChange={handlePasswordChange} handleUsernameChange={handleUsernameChange} handleNameChange={handleNameChange} handleSubmit={handleSignUp} />
+            <SignupForm {...props} username={username} password={password} name={name} handlePasswordChange={handlePasswordChange} handleUsernameChange={handleUsernameChange} handleNameChange={handleNameChange} handleSubmit={handleSignUp} />
           )} />
           <Route exact path='/signin' render={props => (
-            <SignIn {...props}  handleLogin={handleLogin} />
+            <SigninForm {...props} username={username} newPassword={newPassword} password={password} handlePasswordChange={handlePasswordChange} handleUsernameChange={handleUsernameChange} handleSubmit={handleLogin} />
           )} />
           <Route exact path="/GuestCheckout" render={props => (<GuestCheckout {...props} />)} />
           <Route exact path="/UserStoreFrontEdit" render={props => (<UserStoreFrontEdit {...props} />)} />
