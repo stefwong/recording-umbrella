@@ -89,10 +89,6 @@ export default function PrimarySearchAppBar(props) {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleProfileMenuOpen = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
@@ -174,11 +170,16 @@ export default function PrimarySearchAppBar(props) {
             </Badge>
           </IconButton>
         </Link>
-        <Link to="UserStoreFrontEdit"
+        <Link to="/UserStoreFrontEdit"
           >
             <IconButton>
             < AccountCircle />
             </IconButton>
+        </Link>
+        <Link onClick={props.handleLogOut} to='/'>
+          <IconButton>
+            <span>Log Out</span>
+          </IconButton>
         </Link>
       </>
     ) : (
