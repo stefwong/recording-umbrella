@@ -29,7 +29,7 @@ const GuestCheckout = (props) => {
   const itemsDiv =  shoppingCart && shoppingCart.map((item, index)=>{
       return (<div key={item.id}>
         <p>{item.product.description}  {item.quantity}</p>
-        <img src={item.product.img} alt={`image of ${item.name}`}/>
+        <img src={item.product.img} alt={`${item.name}`}/>
       </div>)
     });
 

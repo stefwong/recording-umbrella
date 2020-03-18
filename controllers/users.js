@@ -67,7 +67,7 @@ usersRouter.put('/', async (req, res, next) => {
   const newUser = {
     username,
     name: user.name,
-    passwordHash
+    passwordHash,
   }
 
   try {
