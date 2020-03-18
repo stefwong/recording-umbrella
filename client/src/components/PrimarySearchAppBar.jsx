@@ -15,10 +15,6 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Link } from 'react-router-dom';
 
-
-
-
-
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1,
@@ -89,7 +85,6 @@ export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -160,7 +155,7 @@ export default function PrimarySearchAppBar(props) {
 
           <IconButton>
             <AccountCircle>
-            </AccountCircle >
+            </AccountCircle>
           </IconButton>
           <p>Profile</p>
 
@@ -168,6 +163,35 @@ export default function PrimarySearchAppBar(props) {
       </Link>
     </Menu>
   );
+
+  const displaySignupOrCheckout = () => {
+    return (props.user && Object.keys(props.user).length) ? (
+      <>
+        <Link to="/GuestCheckout">
+          <IconButton aria-label="new items added to cart" color="inherit">
+            <Badge badgeContent={props.shoppingCartItemsCount} color="secondary">
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
+        </Link>
+        <Link to="UserStoreFrontEdit"
+          >
+            <IconButton>
+            < AccountCircle />
+            </IconButton>
+        </Link>
+      </>
+    ) : (
+      <>
+        <Link to='/signup'>
+          <p>Sign Up</p>
+        </Link>
+        <Link to='/signin'>
+          <p>Log In</p>
+        </Link>
+      </>
+    )
+  }
 
   return (
     <div className={classes.grow}>
@@ -204,20 +228,7 @@ export default function PrimarySearchAppBar(props) {
           </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-          <Link to="/GuestCheckout">
-        
-            <IconButton aria-label="new items added to cart" color="inherit">
-              <Badge badgeContent={props.shoppingCartItemsCount} color="secondary">
-                <ShoppingCartIcon />
-              </Badge>
-            </IconButton>
-            </Link>
-            <Link to="UserStoreFrontEdit"
-            >
-              <IconButton>
-              < AccountCircle />
-              </IconButton>
-            </Link>
+            {displaySignupOrCheckout()}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

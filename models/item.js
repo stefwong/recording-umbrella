@@ -10,10 +10,10 @@ const itemSchema = mongoose.Schema({
     type: Number,
     default: 1
   },
-  img: String,
+  imgUrl: String,
   date: Date,
   category: String,
-  owner: {
+  ownerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },

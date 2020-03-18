@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const usersRouter = require('express').Router()
 const User = require('../models/user');
-const Item = require('../models/item');
 
 usersRouter.get('/', async (req, res) => {
   const users = await User
@@ -27,16 +26,17 @@ usersRouter.get('/:id', async (req, res, next) => {
 })
 
 usersRouter.post('/', async (req, res, next) => {
+  const { body: { username, name, password, avatar } } = req
+  
   try {
-    const { body: { username, name, password } } = req
-
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(password, saltRounds)
 
     const user = new User({
       username,
       name,
-      passwordHash
+      passwordHash,
+      avatar: avatar || 'https://ui-avatars.com/api/?name=Dummy+Avatar'
     })
 
     const savedUser = await user.save()
@@ -46,7 +46,6 @@ usersRouter.post('/', async (req, res, next) => {
     next(e)
   }
 })
-
 
 usersRouter.put('/', async (req, res, next) => {
   const { body: { username, password, newPassword } } = req
@@ -68,12 +67,21 @@ usersRouter.put('/', async (req, res, next) => {
   const newUser = {
     username,
     name: user.name,
-    passwordHash
+    passwordHash,
   }
 
   try {
     const updatedUser = await User.findByIdAndUpdate(user._id, newUser, { new: true, runValidators: true, context: 'query' })
     res.json(updatedUser.toJSON())
+  } catch (e) {
+    next(e)
+  }
+})
+
+usersRouter.delete('/', async (req, res, next) => {
+  try {
+    await User.deleteMany()
+    res.status(204).end()
   } catch (e) {
     next(e)
   }

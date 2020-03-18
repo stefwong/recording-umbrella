@@ -6,7 +6,7 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import { getItems } from '../services/items';
+import itemService from '../services/items';
 import shoppingCartService from '../util/ShoppingCartService';
 import Button from '@material-ui/core/Button';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -30,16 +30,22 @@ export default function ItemsScreen(props) {
     const [items, setItems] = useState([])
 
     const classes = useStyles();
-    useEffect(() => {
-        const getData = async () => {
-            const itemsTemp = await getItems()
-            setItems(itemsTemp)
-            console.log(itemsTemp)
-        }
-        // call to getItems()
-        getData()
+    // useEffect(() => {
+    //     const getData = async () => {
+    //         const itemsTemp = itemService.
+    //         setItems(itemsTemp)
+    //         console.log(itemsTemp)
+    //     }
+    //     // call to getItems()
+    //     getData()
 
-    }, [])
+    // }, [])
+    const itemsHook = () => {
+        itemService.getAll()
+            .then(res => setItems(res))
+    }
+    useEffect(itemsHook, [])
+
     if (!items) {
         return null
     }
@@ -66,7 +72,7 @@ export default function ItemsScreen(props) {
                         item.name.includes(props.match.params.searchText))
                 }).map(item => (
                     <GridListTile key={item.id} cols={1}>
-                        <img src={item.img} alt={item.name} />
+                        <img src={item.imgUrl} alt={item.name} />
                         <GridListTileBar
                             title={
                                 `${item.name} `}
@@ -80,9 +86,9 @@ export default function ItemsScreen(props) {
 
 
                                 <IconButton onClick={() => { addItem(item) }} aria-label={`info about ${item.name}`} className={classes.icon}>
-                                    <ListItemAvatar>
+                                    {/* <ListItemAvatar>
                                         <Avatar alt="Profile Picture" src={item.owner.avatar} />
-                                    </ListItemAvatar>
+                                    </ListItemAvatar> */}
 
                                     <Button variant="contained"
                                         className={classes.button}
