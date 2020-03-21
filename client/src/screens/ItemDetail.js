@@ -1,17 +1,38 @@
 import React, { useState, useEffect } from 'react'
 import itemService from '../services/items'
+import userService from '../services/users'
 
-const ItemDetail = ({ match: { params: { id } } }) => {
+const ItemDetail = ({ match: { params: { id } }, handleDeleteItem }) => {
   const [item, setItem] = useState(null)
+  const [itemOwner, setItemOwner] = useState(null)
+  const [adminAccess, setAdminAccess] = useState(false)
+  const [guestAccess, setGuestAccess] = useState(false)
+  const [updating, setUpdating] = useState(false)
+  const [loggedUserJSON, setLoggedUserJSON] = useState(null)
 
   const itemHook = () => {
+    const userJSON = localStorage.getItem('loggedInUser')
+    setLoggedUserJSON(userJSON)
+
     itemService.getById(id)
       .then(res => setItem(res))
   }
 
   useEffect(itemHook, [])
 
+  const handleDelete = (id) => {
+    handleDeleteItem(id)
+      .then(() => setItem(null))
+      .catch(error => console.error(error))
+  }
+
   const displayItem = () => {
+    const user = JSON.parse(loggedUserJSON)
+    if (user && item) {
+      console.log(user.username)
+      console.log(item.ownerId.username)
+    } 
+
     return item ? (
       <div>
         <h3>Name: {item.name}</h3>
@@ -27,6 +48,11 @@ const ItemDetail = ({ match: { params: { id } } }) => {
   return (
     <>
       {displayItem()} 
+
+      {
+        adminAccess &&
+        <button onClick={() => handleDelete(item.id)}>Delete</button>
+      }
     </>
   )
 }

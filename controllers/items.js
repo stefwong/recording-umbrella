@@ -22,7 +22,7 @@ itemsRouter.get('/:id', async (req, res, next) => {
     const { id } = req.params
 
     try {
-        const item = await Item.findById(id)
+        const item = await Item.findById(id).populate('ownerId', {username: 1})
         if (item) {
             res.json(item.toJSON())
         } else {
@@ -103,7 +103,7 @@ itemsRouter.post('/buy/:id', async (req, res, next) => {
 })
 
 itemsRouter.put('/:id', async (req, res, next) => {
-    const { body: { name, description, price, img } } = req
+    const { body: { name, description, price, img, category } } = req
     const { id } = req.params
     
     const existingItem = await Item.findById(id)
@@ -112,7 +112,8 @@ itemsRouter.put('/:id', async (req, res, next) => {
         name: name || existingItem.name,
         description: description || existingItem.description,
         price: price || existingItem.price,
-        img: img || existingItem.img
+        img: img || existingItem.img,
+        category: category || existingItem.category
     }
 
     try {

@@ -47,6 +47,14 @@ function App() {
   const handlePasswordChange = ({ target: { value } }) => setPassword(value)
   const handleNewPasswordChange = ({ target: { value } }) => setNewPassword(value)
 
+  const handleDeleteItem = async (id) => {
+    try {
+      await itemService.remove(id)
+    } catch (error) {
+      throw error
+    }
+  }
+
   const handleLogin = async () => {
     try {
       const user = await loginService.login({ username, password })
