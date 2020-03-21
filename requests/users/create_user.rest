@@ -2,7 +2,8 @@ POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {    
-	"username": "green-leaf",
-	"name": "Soap Merchant",
-	"password": "potato"
+	"username": "root0001",
+	"name": "Bar Soap",
+	"password": "pass",
+	"avatar": "https://ui-avatars.com/api/?name=Root+User"
 }

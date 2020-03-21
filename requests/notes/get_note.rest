@@ -1,2 +1,0 @@
-GET http://localhost:3001/api/notes/5e68eed3f7e9580848c1530a
-Content-Type: application/json
