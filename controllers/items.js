@@ -22,7 +22,7 @@ itemsRouter.get('/:id', async (req, res, next) => {
     const { id } = req.params
 
     try {
-        const item = await Item.findById(id)
+        const item = await Item.findById(id).populate('ownerId', {username: 1})
         if (item) {
             res.json(item.toJSON())
         } else {

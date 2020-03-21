@@ -11,33 +11,14 @@ const ItemDetail = ({ match: { params: { id } }, handleDeleteItem }) => {
   const [loggedUserJSON, setLoggedUserJSON] = useState(null)
 
   const itemHook = () => {
+    const userJSON = localStorage.getItem('loggedInUser')
+    setLoggedUserJSON(userJSON)
+
     itemService.getById(id)
       .then(res => setItem(res))
   }
-  // const guestPriviledgeHook = () => {
-  //   const userJSON = localStorage.getItem('loggedInUser')
-  //   setLoggedUserJSON(userJSON)
-
-  //   const user = JSON.parse(loggedUserJSON)
-  //   // userService.getById(item.ownerId)
-  //   //   .then(res => setItemOwner(res))
-
-  //   if (loggedUserJSON !== null && Object.keys(item).length) {
-  //     console.log(itemOwner)
-  //     if (user.username === itemOwner.username) {
-  //       setAdminAccess(true)
-  //     } else {
-  //       console.log(user.username, '!==', itemOwner.username)
-  //       setAdminAccess(false)
-  //     }
-  //     setGuestAccess(true)
-  //   } else {
-  //     setGuestAccess(false)
-  //   }
-  // }
 
   useEffect(itemHook, [])
-  // useEffect(guestPriviledgeHook, [item])
 
   const handleDelete = (id) => {
     handleDeleteItem(id)
@@ -46,6 +27,12 @@ const ItemDetail = ({ match: { params: { id } }, handleDeleteItem }) => {
   }
 
   const displayItem = () => {
+    const user = JSON.parse(loggedUserJSON)
+    if (user && item) {
+      console.log(user.username)
+      console.log(item.ownerId.username)
+    } 
+
     return item ? (
       <div>
         <h3>Name: {item.name}</h3>
