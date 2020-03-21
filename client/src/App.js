@@ -29,12 +29,18 @@ function App() {
   const [user, setUser] = useState(null)
 
   const loginHook = () => {
-    const loggedUserJSON = window.localStorage.getItem('loggedInUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      itemService.setToken(user.token)
+    try{
+      const loggedUserJSON = window.localStorage.getItem('loggedInUser')
+      if (loggedUserJSON) {
+        const user = JSON.parse(loggedUserJSON)
+        setUser(user)
+        itemService.setToken(user.token)
+      }
     }
+    catch(err){
+      setUser(null)
+    }
+
   }
 
   useEffect(loginHook, [])
@@ -130,6 +136,7 @@ function App() {
           {/* <Route exact path="/home" render={props => (<ItemsScreen handleShoppingCartUpdated={handleShoppingCartUpdated} {...props} />)} /> */}
           <Route exact path="/ItemsScreen/:searchText" render={props => (<ItemsScreen {...props} />)} />
           <Route exact path="/" render={props => (<ItemsScreen {...props} />)} />
+          {/* <Route exact path="/" render={props => (<div {...props}> Testing </div>)} /> */}
           <Route path='/:id' render={props => (
             <ItemDetail {...props} />
           )} />
@@ -137,12 +144,7 @@ function App() {
         </Switch>
       </Router>
 
-      {/* Survival App */}
-      {/* <> */}
-      {/* <ItemsScreen /> */}
-      {/* <InventoryForm /> */}
-      {/* <GuestCheckout /> */}
-      {/* </> */}
+
     </>
   );
 }

@@ -32,7 +32,10 @@ export default function ItemsScreen(props) {
 
     const itemsHook = () => {
         itemService.getAll()
-            .then(res => setItems(res))
+            .then(res => {
+                console.log(res);
+                setItems(res)
+            })
     }
     useEffect(itemsHook, [])
 

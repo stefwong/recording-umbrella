@@ -11,14 +11,15 @@ const ItemDetail = ({ match: { params: { id } }, handleDeleteItem }) => {
   const [loggedUserJSON, setLoggedUserJSON] = useState(null)
 
   const itemHook = () => {
-    const userJSON = localStorage.getItem('loggedInUser')
-    setLoggedUserJSON(userJSON)
+    
+    // const userJSON = localStorage.getItem('loggedInUser')
+    // setLoggedUserJSON(userJSON)
 
     itemService.getById(id)
       .then(res => setItem(res))
   }
 
-  useEffect(itemHook, [])
+  useEffect(itemHook, [id])
 
   const handleDelete = (id) => {
     handleDeleteItem(id)
@@ -38,7 +39,7 @@ const ItemDetail = ({ match: { params: { id } }, handleDeleteItem }) => {
         <h3>Name: {item.name}</h3>
         <div className="description">Description: {item.description}</div>
         <div className="item-info">Price: {item.price}</div>
-        <div className="img"><img src={item.imgUrl} alt="Item" /></div>
+        {/*<div className="img"><img src={item.imgUrl} alt="Item" /></div>*/}
         <div className="category">Category: {item.category}</div>
         <div className="item-info">Sale status: {item.forSale === false ? 'Not For Sale' : 'For Sale'}</div>
       </div>
