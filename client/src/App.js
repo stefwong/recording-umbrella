@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import ItemsScreen from './screens/ItemsScreen'
+import ItemCreate from './screens/ItemCreate'
 import ItemDetail from './screens/ItemDetail'
 import PrimarySearchAppBar from './components/PrimarySearchAppBar';
 import {
@@ -23,13 +24,13 @@ function App() {
   const [shoppingCartItemsCount, setShoppingCartItemsCount] = useState(0)
   const [username, setUsername] = useState('')
   const [name, setName] = useState('')
-	const [password, setPassword] = useState('')
-	const [newPassword, setNewPassword] = useState('')
+  const [password, setPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
   const [user, setUser] = useState(null)
 
   const loginHook = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedInUser')
-    if(loggedUserJSON) {
+    if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       itemService.setToken(user.token)
@@ -43,8 +44,8 @@ function App() {
   }
   const handleNameChange = ({ target: { value } }) => setName(value)
   const handleUsernameChange = ({ target: { value } }) => setUsername(value)
-	const handlePasswordChange = ({ target: { value } }) => setPassword(value)
-	const handleNewPasswordChange = ({ target: { value } }) => setNewPassword(value)
+  const handlePasswordChange = ({ target: { value } }) => setPassword(value)
+  const handleNewPasswordChange = ({ target: { value } }) => setNewPassword(value)
 
   const handleLogin = async () => {
     try {
@@ -58,10 +59,10 @@ function App() {
       throw error
     }
   }
-  
+
   const handleUpdateAccount = async () => {
     const userObj = {
-      username, 
+      username,
       password,
       newPassword
     }
@@ -114,16 +115,17 @@ function App() {
             <SignupForm {...props} username={username} password={password} name={name} handlePasswordChange={handlePasswordChange} handleUsernameChange={handleUsernameChange} handleNameChange={handleNameChange} handleSubmit={handleSignUp} />
           )} />
           <Route exact path='/signin' render={props => (
-            <SigninForm {...props} username={username} newPassword={newPassword} password={password} handlePasswordChange={handlePasswordChange} handleNewPasswordChange={handleNewPasswordChange} handleUsernameChange={handleUsernameChange} handleSubmit={handleLogin} handleUpdateAccount={handleUpdateAccount}/>
+            <SigninForm {...props} username={username} newPassword={newPassword} password={password} handlePasswordChange={handlePasswordChange} handleNewPasswordChange={handleNewPasswordChange} handleUsernameChange={handleUsernameChange} handleSubmit={handleLogin} handleUpdateAccount={handleUpdateAccount} />
           )} />
           <Route exact path="/GuestCheckout" render={props => (<GuestCheckout {...props} />)} />
           <Route exact path="/UserStoreFrontEdit" render={props => (<UserStoreFrontEdit {...props} />)} />
           {/* <Route exact path="/home" render={props => (<ItemsScreen handleShoppingCartUpdated={handleShoppingCartUpdated} {...props} />)} /> */}
           <Route exact path="/ItemsScreen/:searchText" render={props => (<ItemsScreen {...props} />)} />
-          <Route exact path="/" render={props => (<ItemsScreen handleShoppingCartUpdated={handleShoppingCartUpdated} {...props} />)} />
+          <Route exact path="/" render={props => (<ItemsScreen {...props} />)} />
           <Route path='/:id' render={props => (
             <ItemDetail {...props} />
           )} />
+          <Route exact path="/ItemCreate" render={props => (<ItemCreate {...props} />)} />
         </Switch>
       </Router>
 

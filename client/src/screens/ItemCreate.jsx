@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import ItemForm from '../components/ItemForm'
-import { create } from '../services/items'
+import create from '../services/items'
 
 class ItemCreate extends Component {
   constructor(props) {
@@ -50,7 +50,7 @@ class ItemCreate extends Component {
     const { history } = this.props
 
     if (createdItem) {
-      return <Redirect to={`/ItemsScreen`} />
+      return <Redirect to={`/`} />
     }
     return (
       <ItemForm
