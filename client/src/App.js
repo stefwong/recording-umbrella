@@ -35,12 +35,18 @@ function App() {
   const [searchText, setSearchText] = useState("");
   
   const loginHook = () => {
-    const loggedUserJSON = window.localStorage.getItem('loggedInUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      itemService.setToken(user.token)
+    try{
+      const loggedUserJSON = window.localStorage.getItem('loggedInUser')
+      if (loggedUserJSON) {
+        const user = JSON.parse(loggedUserJSON)
+        setUser(user)
+        itemService.setToken(user.token)
+      }
     }
+    catch(err){
+      setUser(null)
+    }
+
   }
 
   const itemsHook = () => {
@@ -157,7 +163,6 @@ function App() {
           )} />
           <Route path="/GuestCheckout" render={props => (<GuestCheckout {...props} />)} />
           <Route path="/UserStoreFrontEdit" render={props => (<UserStoreFrontEdit {...props} />)} />
-
           <Route path="/ItemCreate" render={props => (<ItemCreate {...props} />)} />
           <Route exact path="/" render={props => (user ? <ItemsScreen {...props} items={itemsToShow} /> : <LandingPage />)} />
           <Route path='/:id' render={props => (

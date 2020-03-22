@@ -63,8 +63,8 @@ const ItemForm = ({
           onChange={handleChange}
           name="itemPrice"
         />
-        <InputLabel id="category-select-label">Category</InputLabel>
-        <Select
+        {/* <InputLabel id="category-select-label">Category</InputLabel> */}
+        {/* <Select
           required
           labelId="category-select-label"
           value="Select Category"
@@ -76,7 +76,7 @@ const ItemForm = ({
           <MenuItem value="sanitary">Sanitary</MenuItem>
           <MenuItem value="first aid">First Aid</MenuItem>
           <MenuItem value="misc">Misc</MenuItem>
-        </Select>
+        </Select> */}
         <TextField
           required
           id="imgLink"
