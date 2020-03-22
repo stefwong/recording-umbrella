@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import ItemForm from '../components/ItemForm'
-import create from '../services/items'
+import itemService from '../services/items'
 
 class ItemCreate extends Component {
   constructor(props) {
@@ -9,12 +9,10 @@ class ItemCreate extends Component {
 
     this.state = {
       item: {
-        itemName: '',
-        itemDescription: '',
-        itemPrice: 0,
-        imgLink: '',
-        emailAddress: '',
-        inputPassword: '',
+        name: '',
+        description: '',
+        price: 0,
+        imgUrl: '',
         category: ''
       },
       createdItem: null
@@ -22,7 +20,7 @@ class ItemCreate extends Component {
   }
 
   handleChange = (event) => {
-    if (event.target.name === 'itemPrice') {
+    if (event.target.name === 'price') {
       const updatedField = { [event.target.name]: parseInt(event.target.value) }
       const editedItem = Object.assign(this.state.item, updatedField)
       this.setState({ item: editedItem })
@@ -35,13 +33,19 @@ class ItemCreate extends Component {
   }
   handleSubmit = async (event) => {
     event.preventDefault()
-
-    const response = await create(this.state.item)
-    if (response.status === 201) {
-      this.props.addItem(response.data)
-      this.setState({
-        createdItem: response.data
-      })
+    console.log('submitted')
+    // if (response.status === 201) {
+    //   this.props.addItem(response.data)
+    //   this.setState({
+    //     createdItem: response.data
+    //   })
+    // }
+    try {
+      const createdItem = await itemService.create(this.state.item)
+      console.log(createdItem)
+      this.setState({createdItem})
+    } catch (error) {
+      throw error
     }
   }
   render() {

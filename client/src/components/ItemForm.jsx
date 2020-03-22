@@ -63,7 +63,6 @@ const ItemForm = ({
           onChange={handleChange}
           name="itemPrice"
         />
-        <InputLabel id="category-select-label">Category</InputLabel>
         <Select
           required
           labelId="category-select-label"
@@ -86,7 +85,7 @@ const ItemForm = ({
           onChange={handleChange}
           name="imgLink"
         />
-        <Button color="primary" variant="contained">ADD TO INVENTORY</Button>
+        <Button color="primary" type='submit' variant="contained">ADD TO INVENTORY</Button>
       </FormControl>
     </div>
   )
