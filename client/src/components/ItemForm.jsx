@@ -63,6 +63,7 @@ const ItemForm = ({
           onChange={handleChange}
           name="itemPrice"
         />
+        <InputLabel id="category-select-label">Category</InputLabel>
         <Select
           required
           labelId="category-select-label"
