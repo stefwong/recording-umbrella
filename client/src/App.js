@@ -31,6 +31,8 @@ function App() {
   const [newPassword, setNewPassword] = useState('')
   const [user, setUser] = useState(null)
   const [items, setItems] = useState([])
+  const [itemsToShow, setItemsToShow] = useState([])
+  const [searchText, setSearchText] = useState("");
   
   const loginHook = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedInUser')
@@ -42,8 +44,11 @@ function App() {
   }
 
   const itemsHook = () => {
-      itemService.getAll()
-          .then(res => setItems(res))
+    itemService.getAll()
+        .then(res => {
+          setItems(res)
+          setItemsToShow(res)
+        })
   }
   
   useEffect(loginHook, [])
@@ -56,6 +61,21 @@ function App() {
   const handleUsernameChange = ({ target: { value } }) => setUsername(value)
   const handlePasswordChange = ({ target: { value } }) => setPassword(value)
   const handleNewPasswordChange = ({ target: { value } }) => setNewPassword(value)
+  const handleSearchChange = ({ target: { value } }) => setSearchText(value)
+  
+  const submitSearchQuery = () => {
+    const searchResults = searchText.length ? items.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase())) : items
+    setItemsToShow(searchResults)
+    setSearchText('')
+  }
+
+  const keyPressed = ({ key }) => {
+    if (key === 'Enter') {
+      submitSearchQuery()
+    }
+  }
+
+  const handleSearchClick = () => submitSearchQuery()
 
   const handleDeleteItem = async (id) => {
     try {
@@ -127,33 +147,24 @@ function App() {
   return (
     <>
       <Router>
-        {user ? <PrimarySearchAppBar user={user} shoppingCartItemsCount={shoppingCartItemsCount} handleLogOut={handleLogOut} /> : <GuestNavBar />}
+        {user ? <PrimarySearchAppBar searchText={searchText} handleChange={handleSearchChange} handleClick={handleSearchClick} handleKeyPress={keyPressed} shoppingCartItemsCount={shoppingCartItemsCount} handleLogOut={handleLogOut} /> : <GuestNavBar />}
         <Switch>
-          <Route exact path='/signup' render={props => (
+          <Route path='/signup' render={props => (
             <SignupForm {...props} username={username} password={password} name={name} handlePasswordChange={handlePasswordChange} handleUsernameChange={handleUsernameChange} handleNameChange={handleNameChange} handleSubmit={handleSignUp} />
           )} />
-          <Route exact path='/signin' render={props => (
+          <Route path='/signin' render={props => (
             <SigninForm {...props} username={username} newPassword={newPassword} password={password} handlePasswordChange={handlePasswordChange} handleNewPasswordChange={handleNewPasswordChange} handleUsernameChange={handleUsernameChange} handleSubmit={handleLogin} handleUpdateAccount={handleUpdateAccount} />
           )} />
-          <Route exact path="/GuestCheckout" render={props => (<GuestCheckout {...props} />)} />
-          <Route exact path="/UserStoreFrontEdit" render={props => (<UserStoreFrontEdit {...props} />)} />
-          {/* <Route exact path="/home" render={props => (<ItemsScreen handleShoppingCartUpdated={handleShoppingCartUpdated} {...props} />)} /> */}
+          <Route path="/GuestCheckout" render={props => (<GuestCheckout {...props} />)} />
+          <Route path="/UserStoreFrontEdit" render={props => (<UserStoreFrontEdit {...props} />)} />
 
-          <Route exact path="/ItemCreate" render={props => (<ItemCreate {...props} />)} />
-          <Route exact path="/ItemsScreen/:searchText" render={props => (<ItemsScreen {...props} items={items} />)} />
-          <Route exact path="/" render={props => (user ? <ItemsScreen {...props} items={items} /> : <LandingPage />)} />
+          <Route path="/ItemCreate" render={props => (<ItemCreate {...props} />)} />
+          <Route exact path="/" render={props => (user ? <ItemsScreen {...props} items={itemsToShow} /> : <LandingPage />)} />
           <Route path='/:id' render={props => (
             <ItemDetail handleDeleteItem={handleDeleteItem} user={user} {...props} />
           )} />
         </Switch>
       </Router>
-
-      {/* Survival App */}
-      {/* <> */}
-      {/* <ItemsScreen /> */}
-      {/* <InventoryForm /> */}
-      {/* <GuestCheckout /> */}
-      {/* </> */}
     </>
   );
 }
