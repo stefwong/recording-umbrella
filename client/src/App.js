@@ -33,12 +33,18 @@ function App() {
   const [items, setItems] = useState([])
   
   const loginHook = () => {
-    const loggedUserJSON = window.localStorage.getItem('loggedInUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      itemService.setToken(user.token)
+    try{
+      const loggedUserJSON = window.localStorage.getItem('loggedInUser')
+      if (loggedUserJSON) {
+        const user = JSON.parse(loggedUserJSON)
+        setUser(user)
+        itemService.setToken(user.token)
+      }
     }
+    catch(err){
+      setUser(null)
+    }
+
   }
 
   const itemsHook = () => {
@@ -138,6 +144,11 @@ function App() {
           <Route exact path="/GuestCheckout" render={props => (<GuestCheckout {...props} />)} />
           <Route exact path="/UserStoreFrontEdit" render={props => (<UserStoreFrontEdit {...props} />)} />
           {/* <Route exact path="/home" render={props => (<ItemsScreen handleShoppingCartUpdated={handleShoppingCartUpdated} {...props} />)} /> */}
+          {/* <Route exact path="/ItemsScreen/:searchText" render={props => (<ItemsScreen {...props} />)} /> */}
+          {/* <Route exact path="/" render={props => (<ItemsScreen {...props} />)} /> */}
+          {/* <Route exact path="/" render={props => (<div {...props}> Testing </div>)} /> */}
+          {/* <Route path='/:id' render={props => (
+            <ItemDetail {...props} user = {user} /> */}
 
           <Route exact path="/ItemCreate" render={props => (<ItemCreate {...props} />)} />
           <Route exact path="/ItemsScreen/:searchText" render={props => (<ItemsScreen {...props} items={items} />)} />
@@ -148,12 +159,7 @@ function App() {
         </Switch>
       </Router>
 
-      {/* Survival App */}
-      {/* <> */}
-      {/* <ItemsScreen /> */}
-      {/* <InventoryForm /> */}
-      {/* <GuestCheckout /> */}
-      {/* </> */}
+
     </>
   );
 }
