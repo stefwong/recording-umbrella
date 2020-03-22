@@ -36,7 +36,6 @@ const ItemForm = ({
   return (
     <div className='form-container'>
       <FormControl
-        onSubmit={handleSubmit}
         className={classes.root}
         noValidate autoComplete="off">
         <TextField
@@ -45,7 +44,7 @@ const ItemForm = ({
           variant="outlined"
           size="small"
           onChange={handleChange}
-          name="itemName"
+          name="name"
         />
         <TextField
           required
@@ -53,7 +52,7 @@ const ItemForm = ({
           variant="outlined"
           size="small"
           onChange={handleChange}
-          name="itemDescription"
+          name="description"
         />
         <TextField
           required
@@ -61,7 +60,7 @@ const ItemForm = ({
           variant="outlined"
           size="small"
           onChange={handleChange}
-          name="itemPrice"
+          name="price"
         />
         <InputLabel id="category-select-label">Category</InputLabel>
         <Select
@@ -84,9 +83,9 @@ const ItemForm = ({
           variant="outlined"
           size="small"
           onChange={handleChange}
-          name="imgLink"
+          name="imgUrl"
         />
-        <Button color="primary" type='submit' variant="contained">ADD TO INVENTORY</Button>
+        <Button color="primary" onClick={handleSubmit} variant="contained">ADD TO INVENTORY</Button>
       </FormControl>
     </div>
   )

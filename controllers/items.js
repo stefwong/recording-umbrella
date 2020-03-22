@@ -34,7 +34,7 @@ itemsRouter.get('/:id', async (req, res, next) => {
 })
 
 itemsRouter.post('/', async (req, res, next) => {
-    const { body: { name, description, price, imgUrl } } = req
+    const { body: { name, description, price, imgUrl, category } } = req
     const token = getTokenFrom(req)
     
     try {
@@ -51,6 +51,7 @@ itemsRouter.post('/', async (req, res, next) => {
             description,
             price,
             imgUrl,
+            category,
             date: new Date(),
             ownerId: user._id
         })

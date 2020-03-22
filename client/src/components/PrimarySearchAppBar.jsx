@@ -83,8 +83,8 @@ export default function PrimarySearchAppBar(props) {
   const { searchText, handleChange, handleClick, handleKeyPress } = props
 
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -156,13 +156,13 @@ export default function PrimarySearchAppBar(props) {
       <AppBar position="static">
         <Toolbar>
           <IconButton >
-            <Link to="/">
+            <Link to='/'>
               <StoreIcon />
             </Link>
           </IconButton>
 
           <Typography className={classes.title} variant="h6" noWrap>
-             The Survival Market
+            The Survival Market
           </Typography>
 
           <div className={classes.search}>

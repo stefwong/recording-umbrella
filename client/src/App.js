@@ -5,7 +5,6 @@ import ItemCreate from './screens/ItemCreate'
 import ItemDetail from './screens/ItemDetail'
 import PrimarySearchAppBar from './components/PrimarySearchAppBar';
 import {
-  BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
@@ -46,7 +45,6 @@ function App() {
     catch(err){
       setUser(null)
     }
-
   }
 
   const itemsHook = () => {
@@ -83,9 +81,22 @@ function App() {
 
   const handleSearchClick = () => submitSearchQuery()
 
+  const handleCreateItem = async (itemObj) => {
+    try {
+      const createdItem = await itemService.create(itemObj)
+      setItems(items.concat(createdItem))
+      setItemsToShow(items.concat(createdItem))
+    } catch (error) {
+      throw error
+    }
+  }
+
   const handleDeleteItem = async (id) => {
     try {
       await itemService.remove(id)
+      const updatedItems = items.filter(item => item.id !== id)
+      setItems(updatedItems)
+      setItemsToShow(updatedItems)
     } catch (error) {
       throw error
     }
@@ -152,7 +163,6 @@ function App() {
 
   return (
     <>
-      <Router>
         {user ? <PrimarySearchAppBar searchText={searchText} handleChange={handleSearchChange} handleClick={handleSearchClick} handleKeyPress={keyPressed} shoppingCartItemsCount={shoppingCartItemsCount} handleLogOut={handleLogOut} /> : <GuestNavBar />}
         <Switch>
           <Route path='/signup' render={props => (
@@ -163,13 +173,12 @@ function App() {
           )} />
           <Route path="/GuestCheckout" render={props => (<GuestCheckout {...props} />)} />
           <Route path="/UserStoreFrontEdit" render={props => (<UserStoreFrontEdit {...props} />)} />
-          <Route path="/ItemCreate" render={props => (<ItemCreate {...props} />)} />
+          <Route path="/ItemCreate" render={props => (<ItemCreate {...props} handleCreate={handleCreateItem} />)} />
           <Route exact path="/" render={props => (user ? <ItemsScreen {...props} items={itemsToShow} /> : <LandingPage />)} />
           <Route path='/:id' render={props => (
             <ItemDetail handleDeleteItem={handleDeleteItem} user={user} {...props} />
           )} />
         </Switch>
-      </Router>
     </>
   );
 }

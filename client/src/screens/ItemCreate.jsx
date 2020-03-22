@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import ItemForm from '../components/ItemForm'
-import itemService from '../services/items'
 
 class ItemCreate extends Component {
   constructor(props) {
@@ -15,7 +14,7 @@ class ItemCreate extends Component {
         imgUrl: '',
         category: ''
       },
-      createdItem: null
+      createdItem: false
     }
   }
 
@@ -31,22 +30,12 @@ class ItemCreate extends Component {
       this.setState({ item: editedItem })
     }
   }
-  handleSubmit = async (event) => {
-    event.preventDefault()
-    console.log('submitted')
-    // if (response.status === 201) {
-    //   this.props.addItem(response.data)
-    //   this.setState({
-    //     createdItem: response.data
-    //   })
-    // }
-    try {
-      const createdItem = await itemService.create(this.state.item)
-      console.log(createdItem)
-      this.setState({createdItem})
-    } catch (error) {
-      throw error
-    }
+
+  handleSubmit = () => {
+    const { item } = this.state
+    this.props.handleCreate(item)
+      .then(() => this.setState({createdItem: true}))
+    
   }
   render() {
     const { handleChange, handleSubmit } = this
