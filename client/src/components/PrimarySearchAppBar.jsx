@@ -80,7 +80,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function PrimarySearchAppBar(props) {
-  const [searchText, setSearchText] = useState("");
+  const { searchText, handleChange, handleClick, handleKeyPress } = props
 
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -101,11 +101,6 @@ export default function PrimarySearchAppBar(props) {
   const handleMobileMenuOpen = event => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
-  const handleSearchOnChange = event => {
-    setSearchText(event.target.value);
-  }
-
  
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -136,68 +131,25 @@ export default function PrimarySearchAppBar(props) {
     >
       <Link to="/GuestCheckout">
         <MenuItem>
-
           <IconButton aria-label="new items added to cart" color="inherit">
             <Badge badgeContent={props.shoppingCartItemsCount} color="secondary">
               <ShoppingCartIcon />
             </Badge>
-
           </IconButton>
           <p>Shopping Cart</p>
         </MenuItem>
       </Link>
       <Link to="/UserStoreFrontEdit">
         <MenuItem >
-
           <IconButton>
             <AccountCircle>
             </AccountCircle>
           </IconButton>
           <p>Profile</p>
-
         </MenuItem>
       </Link>
     </Menu>
   );
-
-  const displaySignupOrCheckout = () => {
-    return (props.user && Object.keys(props.user).length) ? (
-      <>
-        <Link to='/ItemCreate'>
-          <IconButton>
-            <span>Upload Item</span>
-          </IconButton>
-        </Link>
-        <Link to="/GuestCheckout">
-          <IconButton aria-label="new items added to cart" color="inherit">
-            <Badge badgeContent={props.shoppingCartItemsCount} color="secondary">
-              <ShoppingCartIcon />
-            </Badge>
-          </IconButton>
-        </Link>
-        <Link to="/UserStoreFrontEdit"
-          >
-            <IconButton>
-            < AccountCircle />
-            </IconButton>
-        </Link>
-        <Link onClick={props.handleLogOut} to='/'>
-          <IconButton>
-            <span>Log Out</span>
-          </IconButton>
-        </Link>
-      </>
-    ) : (
-      <>
-        <Link to='/signup'>
-          <p>Sign Up</p>
-        </Link>
-        <Link to='/signin'>
-          <p>Log In</p>
-        </Link>
-      </>
-    )
-  }
 
   return (
     <div className={classes.grow}>
@@ -214,10 +166,9 @@ export default function PrimarySearchAppBar(props) {
           </Typography>
 
           <div className={classes.search}>
-    
-
             <InputBase
-              onChange={handleSearchOnChange}
+              onChange={handleChange}
+              onKeyPress={handleKeyPress}
               value={searchText}
               placeholder="Search…"
               classes={{
@@ -227,14 +178,33 @@ export default function PrimarySearchAppBar(props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          <Link to={`/ItemsScreen/${searchText}`}>
-            <IconButton >
-              <SearchIcon />
-            </IconButton>
-          </Link>
+          <IconButton onClick={handleClick}>
+            <SearchIcon />
+          </IconButton>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {displaySignupOrCheckout()}
+            <Link to='/ItemCreate'>
+              <IconButton>
+                <span>Upload Item</span>
+              </IconButton>
+            </Link>
+            <Link to="/GuestCheckout">
+              <IconButton aria-label="new items added to cart" color="inherit">
+                <Badge badgeContent={props.shoppingCartItemsCount} color="secondary">
+                  <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+            </Link>
+            <Link to="/UserStoreFrontEdit">
+              <IconButton>
+              < AccountCircle />
+              </IconButton>
+            </Link>
+            <Link onClick={props.handleLogOut} to='/'>
+              <IconButton>
+                <span>Log Out</span>
+              </IconButton>
+            </Link>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

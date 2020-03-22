@@ -57,15 +57,7 @@ export default function ItemsScreen(props) {
                         <ListSubheader component="div">Welcome</ListSubheader>
                     </GridListTile>
 
-                    {items.filter(item => {
-                        // runs items through the filter, then maps
-                        console.log(item.name + " " + props.match.params.searchText);
-                        // if nothing is entered, returns all items
-                        // if search is defined, i.e. user enters search text, then filter using the search text
-                        return (typeof props.match.params.searchText === 'undefined' ||
-                            props.match.params.searchText === '' ||
-                            item.name.toLowerCase().includes(props.match.params.searchText.toLowerCase()))
-                    }).map(item => (
+                    {items.map(item => (
                         <GridListTile key={item.id} cols={1}>
                             <Link to={`/${item.id}`}>
                                 <img src={item.imgUrl} alt={item.name} />
