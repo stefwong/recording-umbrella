@@ -2,7 +2,8 @@ Title
 The Survival App
 
 Features, functions, and goals
-Shop for surivival items. Save them to your inventory. 
+Shop for surivival items. 
+Save them to your inventory.
 
 Component Hierarchy
 https://imgur.com/a/nVqtDq7

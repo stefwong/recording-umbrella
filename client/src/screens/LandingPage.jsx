@@ -28,27 +28,28 @@ export default function LandingPage() {
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography variant="h1" component="h1" align="center" color="textPrimary" gutterBottom>
-              This is BIG H1 text
+              You're ready.
         </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              This is smaller text
+              Showcase your stuff.
         </Typography>
         <div className={classes.heroButtons}>
-            <Grid container spacing={2} justify="center">
+            <Grid container spacing={1} justify="center">
               <Grid item>
                 <Router>
                   <Button variant="contained" color="primary" component={Link}
-                    to="/about">
-                    About
+                    to="/">
+                    Sign Up
                   </Button>
                 </Router>
               </Grid>
-            </Grid>
+           
 
             <Grid item>
-              <Button variant="contained" color="primary">
-                Second Button
+              <Button variant="contained" color="default">
+                See New
               </Button>
+            </Grid>
             </Grid>
             </div>
           </Container>  
