@@ -39,7 +39,7 @@ const SigninForm = ({ username, password, newPassword, handleUsernameChange, han
           </div>
         }
         <button type='submit'>{!forgot ? 'Log In' : 'Update'}</button>
-        <span onClick={() => setForgot(!forgot)}>Forgot My Password</span>
+        <span onClick={() => setForgot(!forgot)}>Change My Password</span>
       </form>
     </>
   )
