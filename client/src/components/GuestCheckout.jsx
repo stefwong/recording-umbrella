@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { createItem } from '../services/items'
-import { signUp, signInUser } from '../services/auth'
 import shoppingCartService from '../util/ShoppingCartService'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
