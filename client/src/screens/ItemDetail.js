@@ -9,12 +9,9 @@ const ItemDetail = ({ match: { params: { id } }, handleDeleteItem, user }) => {
   const [redirectHome, setRedirectHome] = useState(false)
   const [itemOwner, setItemOwner] = useState(null)
   const [adminAccess, setAdminAccess] = useState(false)
-  const [guestAccess, setGuestAccess] = useState(false)
   const [updating, setUpdating] = useState(false)
-  const [loggedUserJSON, setLoggedUserJSON] = useState(null)
 
   const itemHook = () => {
-
     itemService.getById(id)
       .then(res => {
         setItem(res)
@@ -47,6 +44,12 @@ const ItemDetail = ({ match: { params: { id } }, handleDeleteItem, user }) => {
     if (user) {
       userName = user.username;
     }
+    // console.log(user)
+    // if (user && item) {
+    //   if (user.username === item.ownerId.username) {
+    //     setAdminAccess(true)
+    //   }
+    // } 
 
     return item ? (
       <div>

@@ -9,6 +9,9 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+
+import GuestNavBar from './screens/GuestNavBar'
+import LandingPage from './screens/LandingPage.jsx'
 import UserStoreFrontEdit from './screens/UserStoreFrontEdit';
 import GuestCheckout from './components/GuestCheckout';
 
@@ -27,7 +30,8 @@ function App() {
   const [password, setPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [user, setUser] = useState(null)
-
+  const [items, setItems] = useState([])
+  
   const loginHook = () => {
     try{
       const loggedUserJSON = window.localStorage.getItem('loggedInUser')
@@ -43,7 +47,13 @@ function App() {
 
   }
 
+  const itemsHook = () => {
+      itemService.getAll()
+          .then(res => setItems(res))
+  }
+  
   useEffect(loginHook, [])
+  useEffect(itemsHook, [])
 
   const handleShoppingCartUpdated = () => {
     setShoppingCartItemsCount(shoppingCartItemsCount + 1)
@@ -123,7 +133,7 @@ function App() {
   return (
     <>
       <Router>
-        <PrimarySearchAppBar user={user} shoppingCartItemsCount={shoppingCartItemsCount} handleLogOut={handleLogOut} />
+        {user ? <PrimarySearchAppBar user={user} shoppingCartItemsCount={shoppingCartItemsCount} handleLogOut={handleLogOut} /> : <GuestNavBar />}
         <Switch>
           <Route exact path='/signup' render={props => (
             <SignupForm {...props} username={username} password={password} name={name} handlePasswordChange={handlePasswordChange} handleUsernameChange={handleUsernameChange} handleNameChange={handleNameChange} handleSubmit={handleSignUp} />
@@ -134,13 +144,18 @@ function App() {
           <Route exact path="/GuestCheckout" render={props => (<GuestCheckout {...props} />)} />
           <Route exact path="/UserStoreFrontEdit" render={props => (<UserStoreFrontEdit {...props} />)} />
           {/* <Route exact path="/home" render={props => (<ItemsScreen handleShoppingCartUpdated={handleShoppingCartUpdated} {...props} />)} /> */}
-          <Route exact path="/ItemsScreen/:searchText" render={props => (<ItemsScreen {...props} />)} />
-          <Route exact path="/" render={props => (<ItemsScreen {...props} />)} />
+          {/* <Route exact path="/ItemsScreen/:searchText" render={props => (<ItemsScreen {...props} />)} /> */}
+          {/* <Route exact path="/" render={props => (<ItemsScreen {...props} />)} /> */}
           {/* <Route exact path="/" render={props => (<div {...props}> Testing </div>)} /> */}
-          <Route path='/:id' render={props => (
-            <ItemDetail {...props} user = {user} />
-          )} />
+          {/* <Route path='/:id' render={props => (
+            <ItemDetail {...props} user = {user} /> */}
+
           <Route exact path="/ItemCreate" render={props => (<ItemCreate {...props} />)} />
+          <Route exact path="/ItemsScreen/:searchText" render={props => (<ItemsScreen {...props} items={items} />)} />
+          <Route exact path="/" render={props => (user ? <ItemsScreen {...props} items={items} /> : <LandingPage />)} />
+          <Route path='/:id' render={props => (
+            <ItemDetail handleDeleteItem={handleDeleteItem} user={user} {...props} />
+          )} />
         </Switch>
       </Router>
 
