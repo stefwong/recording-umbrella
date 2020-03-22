@@ -7,6 +7,7 @@ const ItemDetail = ({ match: { params: { id } }, handleDeleteItem, user }) => {
   const [redirectHome, setRedirectHome] = useState(false)
   const [adminAccess, setAdminAccess] = useState(false)
   const [updating, setUpdating] = useState(false)
+  const [newItem, setNewItem] = useState({ name: '', description: '', price: '', category: '', imgUrl: '', forSale: false })
 
   const itemHook = () => {
     itemService.getById(id)
@@ -29,6 +30,16 @@ const ItemDetail = ({ match: { params: { id } }, handleDeleteItem, user }) => {
     handleDeleteItem(id)
     setItem(null)
     setRedirectHome(true)
+  }
+
+  const handleChange = (e) => {
+    const { target: { name, value } } = e
+    console.log(name)
+    setNewItem({...newItem, [name]: value})
+  }
+
+  const handleUpdate = (e) => {
+    e.preventDefault()
   }
 
   const displayItem = () => {
@@ -60,8 +71,24 @@ const ItemDetail = ({ match: { params: { id } }, handleDeleteItem, user }) => {
       {displayItem()}
 
       {
-        adminAccess &&
-        <button onClick={() => handleDelete(item.id)}>Delete</button>
+        adminAccess && (
+          <>
+            <button onClick={() => handleDelete(item.id)}>Delete</button>
+            {
+              updating ? <form onSubmit={handleUpdate}>
+                <input name='name' placeholder='name' onChange={handleChange} />
+                <input name='description' placeholder='description' onChange={handleChange} />
+                <input name='price' placeholder='price' onChange={handleChange} />
+                <input name='imgUrl' placeholder='image url' onChange={handleChange} />
+                <input name='category' placeholder='category' onChange={handleChange} />
+                <input name='forSale' placeholder='for sale?' onChange={handleChange} />
+                <button onClick={() => setUpdating(!updating)}>Cancel</button>
+                <button onClick={() => setUpdating(!updating)}>Submit</button>
+              </form>
+              : <button onClick={() => setUpdating(!updating)}>Update</button>
+            }
+          </>
+        )
       }
     </>
   )
