@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseUrl = 'api/users'
+import { getBaseApiUrl } from '../util/Settings'
+const baseUrl = `${getBaseApiUrl()}api/users`
 
 const getAll = () => {
   const req = axios.get(baseUrl)

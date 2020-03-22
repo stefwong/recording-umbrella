@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseUrl = 'api/items'
+import { getBaseApiUrl } from '../util/Settings'
+const baseUrl = `${getBaseApiUrl()}api/items`
 
 let token = null
 
