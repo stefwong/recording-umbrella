@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 
 import { MemoryRouter as Router } from 'react-router'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   heroContent: {
@@ -33,26 +33,27 @@ export default function LandingPage() {
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
               Showcase your stuff.
         </Typography>
-        <div className={classes.heroButtons}>
-            <Grid container spacing={1} justify="center">
-              <Grid item>
-                <Router>
-                  <Button variant="contained" color="primary" component={Link}
-                    to="/">
-                    Sign Up
+            <div className={classes.heroButtons}>
+              <Grid container spacing={1} justify="center">
+                <Grid item>
+                  <Link to="/signup">
+                    <Button variant="contained" color="primary">
+                      Sign Up
                   </Button>
-                </Router>
-              </Grid>
-           
+                  </Link>
+                </Grid>
 
-            <Grid item>
-              <Button variant="contained" color="default">
-                See New
+
+                <Grid item>
+                <Link to="/signin">
+                  <Button variant="contained" color="default">
+                    Sign In
               </Button>
-            </Grid>
-            </Grid>
+              </Link>
+                </Grid>
+              </Grid>
             </div>
-          </Container>  
+          </Container>
         </div>
       </main>
     </>
