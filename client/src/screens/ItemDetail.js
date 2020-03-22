@@ -2,18 +2,12 @@ import React, { useState, useEffect } from 'react'
 import itemService from '../services/items'
 import userService from '../services/users'
 
-const ItemDetail = ({ match: { params: { id } }, handleDeleteItem }) => {
+const ItemDetail = ({ match: { params: { id } }, handleDeleteItem, user }) => {
   const [item, setItem] = useState(null)
-  const [itemOwner, setItemOwner] = useState(null)
   const [adminAccess, setAdminAccess] = useState(false)
-  const [guestAccess, setGuestAccess] = useState(false)
   const [updating, setUpdating] = useState(false)
-  const [loggedUserJSON, setLoggedUserJSON] = useState(null)
 
   const itemHook = () => {
-    const userJSON = localStorage.getItem('loggedInUser')
-    setLoggedUserJSON(userJSON)
-
     itemService.getById(id)
       .then(res => setItem(res))
   }
@@ -27,10 +21,11 @@ const ItemDetail = ({ match: { params: { id } }, handleDeleteItem }) => {
   }
 
   const displayItem = () => {
-    const user = JSON.parse(loggedUserJSON)
+    console.log(user)
     if (user && item) {
-      console.log(user.username)
-      console.log(item.ownerId.username)
+      if (user.username === item.ownerId.username) {
+        setAdminAccess(true)
+      }
     } 
 
     return item ? (

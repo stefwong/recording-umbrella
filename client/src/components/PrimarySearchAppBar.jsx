@@ -163,6 +163,11 @@ export default function PrimarySearchAppBar(props) {
   const displaySignupOrCheckout = () => {
     return (props.user && Object.keys(props.user).length) ? (
       <>
+        <Link to='/ItemCreate'>
+          <IconButton>
+            <span>Upload Item</span>
+          </IconButton>
+        </Link>
         <Link to="/GuestCheckout">
           <IconButton aria-label="new items added to cart" color="inherit">
             <Badge badgeContent={props.shoppingCartItemsCount} color="secondary">
