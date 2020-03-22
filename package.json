@@ -1,5 +1,5 @@
 {
-  "proxy": "https://continuous-integration-2020.herokuapp.com",
+  "proxy": "http://localhost:3001/",
   "name": "recording-umbrella",
   "version": "1.0.0",
   "description": "",
