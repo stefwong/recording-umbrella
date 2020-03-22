@@ -104,7 +104,7 @@ itemsRouter.post('/buy/:id', async (req, res, next) => {
 })
 
 itemsRouter.put('/:id', async (req, res, next) => {
-    const { body: { name, description, price, imgUrl, category } } = req
+    const { body: { name, description, price, imgUrl, category, forSale } } = req
     const { id } = req.params
     
     const existingItem = await Item.findById(id)
@@ -114,7 +114,8 @@ itemsRouter.put('/:id', async (req, res, next) => {
         description: description || existingItem.description,
         price: price || existingItem.price,
         imgUrl: imgUrl || existingItem.imgUrl,
-        category: category || existingItem.category
+        category: category || existingItem.category,
+        forSale: forSale
     }
 
     try {

@@ -101,6 +101,12 @@ function App() {
       throw error
     }
   }
+  
+  const handleUpdateItem = (id, updatedItem) => {
+    const updatedItems = items.filter(item => item.id !== id).concat(updatedItem)
+    setItems(updatedItems)
+    setItemsToShow(updatedItems)
+  }
 
   const handleLogin = async () => {
     try {
@@ -176,7 +182,7 @@ function App() {
           <Route path="/ItemCreate" render={props => (<ItemCreate {...props} handleCreate={handleCreateItem} />)} />
           <Route exact path="/" render={props => (user ? <ItemsScreen {...props} items={itemsToShow} /> : <LandingPage />)} />
           <Route path='/:id' render={props => (
-            <ItemDetail handleDeleteItem={handleDeleteItem} user={user} {...props} />
+            <ItemDetail handleDeleteItem={handleDeleteItem} handleUpdateItem={handleUpdateItem} user={user} {...props} />
           )} />
         </Switch>
     </>
