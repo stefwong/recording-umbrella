@@ -138,7 +138,7 @@ function App() {
           <Route exact path="/" render={props => (<ItemsScreen {...props} />)} />
           {/* <Route exact path="/" render={props => (<div {...props}> Testing </div>)} /> */}
           <Route path='/:id' render={props => (
-            <ItemDetail {...props} />
+            <ItemDetail {...props} user = {user} />
           )} />
           <Route exact path="/ItemCreate" render={props => (<ItemCreate {...props} />)} />
         </Switch>
