@@ -28,18 +28,6 @@ export default function ItemsScreen(props) {
 
     const classes = useStyles();
 
-    // const itemsHook = () => {
-    //     itemService.getAll()
-    //         .then(res => {
-    //             console.log(res);
-    //             setItems(res)
-    //         })
-    // }
-    // useEffect(itemsHook, [])
-
-    // if (!items) {
-    //     return <h2>Loading...</h2>
-    // }
     const { items } = props
     
     const addItem = (item) => {

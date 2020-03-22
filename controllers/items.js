@@ -34,7 +34,7 @@ itemsRouter.get('/:id', async (req, res, next) => {
 })
 
 itemsRouter.post('/', async (req, res, next) => {
-    const { body: { name, description, price, img } } = req
+    const { body: { name, description, price, imgUrl, category } } = req
     const token = getTokenFrom(req)
     
     try {
@@ -50,7 +50,8 @@ itemsRouter.post('/', async (req, res, next) => {
             name,
             description,
             price,
-            img,
+            imgUrl,
+            category,
             date: new Date(),
             ownerId: user._id
         })
@@ -103,7 +104,7 @@ itemsRouter.post('/buy/:id', async (req, res, next) => {
 })
 
 itemsRouter.put('/:id', async (req, res, next) => {
-    const { body: { name, description, price, img, category } } = req
+    const { body: { name, description, price, imgUrl, category } } = req
     const { id } = req.params
     
     const existingItem = await Item.findById(id)
@@ -112,7 +113,7 @@ itemsRouter.put('/:id', async (req, res, next) => {
         name: name || existingItem.name,
         description: description || existingItem.description,
         price: price || existingItem.price,
-        img: img || existingItem.img,
+        imgUrl: imgUrl || existingItem.imgUrl,
         category: category || existingItem.category
     }
 

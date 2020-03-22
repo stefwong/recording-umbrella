@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import itemService from '../services/items'
-import userService from '../services/users'
-import { set } from 'mongoose'
 import {Redirect} from 'react-router-dom'
 
 const ItemDetail = ({ match: { params: { id } }, handleDeleteItem, user }) => {
   const [item, setItem] = useState(null)
   const [redirectHome, setRedirectHome] = useState(false)
-  const [itemOwner, setItemOwner] = useState(null)
   const [adminAccess, setAdminAccess] = useState(false)
   const [updating, setUpdating] = useState(false)
+  const [newItem, setNewItem] = useState({ name: '', description: '', price: '', category: '', imgUrl: '', forSale: false })
 
   const itemHook = () => {
     itemService.getById(id)
       .then(res => {
         setItem(res)
-        console.log(res)
         // if the item belongs to the logged in user,
         // assign them admin access so they can delete it (and the delete button will show up)
-        if(user && res.ownerId.username === user.username){
+        if (user && res.ownerId.username === user.username){
           setAdminAccess(true)
         }
       })
@@ -30,31 +27,32 @@ const ItemDetail = ({ match: { params: { id } }, handleDeleteItem, user }) => {
     // removing the item
     // if it is successful, set the redirect variable to true 
     // so the screen will go back to the main itemsScreen page
-    itemService.remove(id)
-      .then(() => {
-        setItem(null)
-        setRedirectHome(true)
-      })
-      .catch(error => console.error(error))
+    handleDeleteItem(id)
+    setItem(null)
+    setRedirectHome(true)
+  }
+
+  const handleChange = (e) => {
+    const { target: { name, value } } = e
+    console.log(name)
+    setNewItem({...newItem, [name]: value})
+  }
+
+  const handleUpdate = (e) => {
+    e.preventDefault()
   }
 
   const displayItem = () => {
-    //const user = JSON.parse(loggedUserJSON)
     let userName = "";
     if (user) {
       userName = user.username;
     }
-    // console.log(user)
-    // if (user && item) {
-    //   if (user.username === item.ownerId.username) {
-    //     setAdminAccess(true)
-    //   }
-    // } 
 
     return item ? (
       <div>
         <h3>Name: {item.name}</h3>
-    {userName && <div >Username: {userName}</div> }
+        {userName && <div >Username: {userName}</div> }
+        <p className='itemOwner'>Owner: {item.ownerId.username}</p>
         <div className="description">Description: {item.description}</div>
         <div className="item-info">Price: {item.price}</div>
         <div className="img"><img src={item.imgUrl} alt="Item" /></div>
@@ -64,16 +62,33 @@ const ItemDetail = ({ match: { params: { id } }, handleDeleteItem, user }) => {
     ) : <h2>Loading..</h2>
   }
 
-  if(redirectHome){
+  if (redirectHome) {
     return (<Redirect to="/"/>)
   }
+
   return (
     <>
       {displayItem()}
 
       {
-        adminAccess &&
-        <button onClick={() => handleDelete(item.id)}>Delete</button>
+        adminAccess && (
+          <>
+            <button onClick={() => handleDelete(item.id)}>Delete</button>
+            {
+              updating ? <form onSubmit={handleUpdate}>
+                <input name='name' placeholder='name' onChange={handleChange} />
+                <input name='description' placeholder='description' onChange={handleChange} />
+                <input name='price' placeholder='price' onChange={handleChange} />
+                <input name='imgUrl' placeholder='image url' onChange={handleChange} />
+                <input name='category' placeholder='category' onChange={handleChange} />
+                <input name='forSale' placeholder='for sale?' onChange={handleChange} />
+                <button onClick={() => setUpdating(!updating)}>Cancel</button>
+                <button onClick={() => setUpdating(!updating)}>Submit</button>
+              </form>
+              : <button onClick={() => setUpdating(!updating)}>Update</button>
+            }
+          </>
+        )
       }
     </>
   )

@@ -17,7 +17,7 @@ const SignupForm = ({ username, name, password, handleUsernameChange, handlePass
         </div>
         <div>
           name
-          <input value={name} onChange={handleNameChange} />
+          <input value={name} placeholder='First + Last' onChange={handleNameChange} />
         </div>
         <div>
           password
