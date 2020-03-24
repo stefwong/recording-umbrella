@@ -28,6 +28,7 @@ const ItemForm = ({
   item,
   handleSubmit,
   handleChange,
+  handleCategoryChange,
   cancelPath,
   history
 }) => {
@@ -62,20 +63,23 @@ const ItemForm = ({
           onChange={handleChange}
           name="price"
         />
-        <InputLabel id="category-select-label">Category</InputLabel>
-        <Select
-          required
-          labelId="category-select-label"
-          value="Select Category"
-          name="category"
-          onChange={handleChange}
-        >
-          <MenuItem value="food">Food</MenuItem>
-          <MenuItem value="apparel">Apparel</MenuItem>
-          <MenuItem value="sanitary">Sanitary</MenuItem>
-          <MenuItem value="first aid">First Aid</MenuItem>
-          <MenuItem value="misc">Misc</MenuItem>
-        </Select>
+        <FormControl>
+          <InputLabel id="category-select-label">Category</InputLabel>
+          <Select
+            required
+            labelId="category-select-label"
+            id="category-select"
+            value={item.category}
+            name="category"
+            onChange={handleCategoryChange}
+          >
+            <MenuItem value="food">Food</MenuItem>
+            <MenuItem value="apparel">Apparel</MenuItem>
+            <MenuItem value="sanitary">Sanitary</MenuItem>
+            <MenuItem value="first aid">First Aid</MenuItem>
+            <MenuItem value="misc">Misc</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
           required
           id="imgLink"

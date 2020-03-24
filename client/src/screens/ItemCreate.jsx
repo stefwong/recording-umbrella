@@ -18,6 +18,14 @@ class ItemCreate extends Component {
     }
   }
 
+  handleCategoryChange = (event) => {
+    let newItem = {...this.state.item}
+    newItem.category = event.target.value
+    this.setState(
+      {item: newItem}
+    )
+  }
+
   handleChange = (event) => {
     if (event.target.name === 'price') {
       const updatedField = { [event.target.name]: parseInt(event.target.value) }
@@ -38,7 +46,7 @@ class ItemCreate extends Component {
     
   }
   render() {
-    const { handleChange, handleSubmit } = this
+    const { handleCategoryChange, handleChange, handleSubmit } = this
     const { createdItem, item } = this.state
     const { history } = this.props
 
@@ -50,6 +58,7 @@ class ItemCreate extends Component {
         item={item}
         history={history}
         handleChange={handleChange}
+        handleCategoryChange={handleCategoryChange}
         handleSubmit={handleSubmit}
         cancelPath="/"
       />
