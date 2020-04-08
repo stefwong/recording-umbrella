@@ -111,7 +111,7 @@ const SignupForm = ({ username, name, password, handleUsernameChange, handlePass
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link to="/signin" variant="body2">
+                <Link variant="body2" onClick={() => {history.push('/signin')}}>
                   Already have an account? Sign in
                 </Link>
               </Grid>
