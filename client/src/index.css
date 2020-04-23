@@ -12,3 +12,11 @@ code {
     monospace;
 }
 
+.spacing {
+  margin: 2em;
+  padding: 2em;
+}
+
+img.width-100 {
+width: 100%;
+}

@@ -4,5 +4,5 @@ export function getBaseApiUrl(){
         return 'https://continuous-integration-2020.herokuapp.com/';
     }
 
-    return "";
+    return "http://localhost:3001/";
 } 

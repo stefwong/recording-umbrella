@@ -183,11 +183,6 @@ export default function PrimarySearchAppBar(props) {
           </IconButton>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Link to='/ItemCreate'>
-              <IconButton>
-                <span>Upload Item</span>
-              </IconButton>
-            </Link>
             <Link to="/GuestCheckout">
               <IconButton aria-label="new items added to cart" color="inherit">
                 <Badge badgeContent={props.shoppingCartItemsCount} color="secondary">

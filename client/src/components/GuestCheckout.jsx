@@ -47,11 +47,11 @@ const GuestCheckout = (props) => {
       return (
       <div key={item.id} className={classes.root}>
       <Paper className={classes.paper}>
-        <Grid container spacing={2}>
+        <Grid container spacing={4}>
           <Grid item>
-            <ButtonBase className={classes.image}>
-              <img className={classes.img} alt="complex" src={item.product.img} />
-            </ButtonBase>
+            {/* <ButtonBase className={classes.image}> */}
+              <img className={`${classes.img} width-100`} alt="complex" src={item.product.imgUrl} />
+            {/* </ButtonBase> */}
           </Grid>
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" spacing={2}>
@@ -90,35 +90,6 @@ const GuestCheckout = (props) => {
       <p>Checkout while the items are still in stock!</p>
       {itemsDiv}
       <form className={classes.root} noValidate autoComplete="off">
-        <TextField
-          id="item-name"
-          label="First Name"
-          variant="outlined"
-          size="small"
-          style={{ margin: 8 }}
-          margin="normal"
-        />
-        <TextField
-          id="item-price"
-          label="Last Name"
-          variant="outlined"
-          size="small" />
-        <TextField
-          label="Image Link"
-          variant="outlined"
-          id="img-link"
-          helperText="Full width!"
-          fullWidth
-          size="small"
-        />
-        <TextField
-          label="Image Link"
-          variant="outlined"
-          id="img-link"
-          helperText="Full width!"
-          fullWidth
-          size="small"
-        />
         <Button color="primary" variant="contained">Checkout</Button>
       </form>
     </>

@@ -45,6 +45,10 @@ class ItemCreate extends Component {
       .then(() => this.setState({createdItem: true}))
     
   }
+
+  handleCancel = () => {
+    this.props.handleCancel()
+  }
   render() {
     const { handleCategoryChange, handleChange, handleSubmit } = this
     const { createdItem, item } = this.state
