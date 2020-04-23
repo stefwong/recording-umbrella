@@ -31,32 +31,51 @@ function App() {
   const [user, setUser] = useState(null)
   const [items, setItems] = useState([])
   const [itemsToShow, setItemsToShow] = useState([])
+  const [ownerItems, setOwnerItems] = useState([])
   const [searchText, setSearchText] = useState("");
-  
+
   const loginHook = () => {
-    try{
+    try {
       const loggedUserJSON = window.localStorage.getItem('loggedInUser')
       if (loggedUserJSON) {
         const user = JSON.parse(loggedUserJSON)
+        console.log(user);
+
         setUser(user)
+        loadOwnerItems(user)
         itemService.setToken(user.token)
       }
     }
-    catch(err){
+    catch (err) {
+      console.log("Error setting user", err)
       setUser(null)
     }
   }
-
-  const itemsHook = () => {
+//https://css-tricks.com/run-useeffect-only-once/
+  const loadOwnerItems = (user) => {
+    console.log("Entered itemsHook", user)
     itemService.getAll()
-        .then(res => {
-          setItems(res)
-          setItemsToShow(res)
-        })
+      .then(res => {
+        setItems(res)
+        setItemsToShow(res)
+        try {
+          let tempOwnerItems = [...res]
+          console.log("Temp owner items ", tempOwnerItems)
+          console.log(user)
+          tempOwnerItems = tempOwnerItems.filter(item => item.ownerId.username === user.username)
+          console.log("Filtered temp owner items ", tempOwnerItems)
+          setOwnerItems(tempOwnerItems)
+          //setting owner items
+        } catch (error) {
+          setOwnerItems([])
+          console.log(error)
+        }
+
+      })
   }
-  
+
   useEffect(loginHook, [])
-  useEffect(itemsHook, [])
+  //useEffect(itemsHook, [])
 
   const handleShoppingCartUpdated = () => {
     setShoppingCartItemsCount(shoppingCartItemsCount + 1)
@@ -66,7 +85,7 @@ function App() {
   const handlePasswordChange = ({ target: { value } }) => setPassword(value)
   const handleNewPasswordChange = ({ target: { value } }) => setNewPassword(value)
   const handleSearchChange = ({ target: { value } }) => setSearchText(value)
-  
+
   const submitSearchQuery = () => {
     const searchResults = searchText.length ? items.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase())) : items
     setItemsToShow(searchResults)
@@ -81,15 +100,7 @@ function App() {
 
   const handleSearchClick = () => submitSearchQuery()
 
-  const handleCreateItem = async (itemObj) => {
-    try {
-      const createdItem = await itemService.create(itemObj)
-      setItems(items.concat(createdItem))
-      setItemsToShow(items.concat(createdItem))
-    } catch (error) {
-      throw error
-    }
-  }
+
 
   const handleDeleteItem = async (id) => {
     try {
@@ -101,7 +112,7 @@ function App() {
       throw error
     }
   }
-  
+
   const handleUpdateItem = (id, updatedItem) => {
     const updatedItems = items.filter(item => item.id !== id).concat(updatedItem)
     setItems(updatedItems)
@@ -169,22 +180,21 @@ function App() {
 
   return (
     <>
-        {user ? <PrimarySearchAppBar searchText={searchText} handleChange={handleSearchChange} handleClick={handleSearchClick} handleKeyPress={keyPressed} shoppingCartItemsCount={shoppingCartItemsCount} handleLogOut={handleLogOut} /> : <GuestNavBar />}
-        <Switch>
-          <Route path='/signup' render={props => (
-            <SignupForm {...props} username={username} password={password} name={name} handlePasswordChange={handlePasswordChange} handleUsernameChange={handleUsernameChange} handleNameChange={handleNameChange} handleSubmit={handleSignUp} />
-          )} />
-          <Route path='/signin' render={props => (
-            <SigninForm {...props} username={username} newPassword={newPassword} password={password} handlePasswordChange={handlePasswordChange} handleNewPasswordChange={handleNewPasswordChange} handleUsernameChange={handleUsernameChange} handleSubmit={handleLogin} handleUpdateAccount={handleUpdateAccount} />
-          )} />
-          <Route path="/GuestCheckout" render={props => (<GuestCheckout {...props} />)} />
-          <Route path="/UserStoreFrontEdit" render={props => (<UserStoreFrontEdit {...props} />)} />
-          <Route path="/ItemCreate" render={props => (<ItemCreate {...props} handleCreate={handleCreateItem} />)} />
-          <Route exact path="/" render={props => (user ? <ItemsScreen {...props} items={itemsToShow} /> : <LandingPage />)} />
-          <Route path='/:id' render={props => (
-            <ItemDetail handleDeleteItem={handleDeleteItem} handleUpdateItem={handleUpdateItem} user={user} {...props} />
-          )} />
-        </Switch>
+      {user ? <PrimarySearchAppBar searchText={searchText} handleChange={handleSearchChange} handleClick={handleSearchClick} handleKeyPress={keyPressed} shoppingCartItemsCount={shoppingCartItemsCount} handleLogOut={handleLogOut} /> : <GuestNavBar />}
+      <Switch>
+        <Route path='/signup' render={props => (
+          <SignupForm {...props} username={username} password={password} name={name} handlePasswordChange={handlePasswordChange} handleUsernameChange={handleUsernameChange} handleNameChange={handleNameChange} handleSubmit={handleSignUp} />
+        )} />
+        <Route path='/signin' render={props => (
+          <SigninForm {...props} username={username} newPassword={newPassword} password={password} handlePasswordChange={handlePasswordChange} handleNewPasswordChange={handleNewPasswordChange} handleUsernameChange={handleUsernameChange} handleSubmit={handleLogin} handleUpdateAccount={handleUpdateAccount} />
+        )} />
+        <Route path="/GuestCheckout" render={props => (<GuestCheckout {...props} />)} />
+        <Route path="/UserStoreFrontEdit" render={props => (<UserStoreFrontEdit {...props} items={ownerItems}/>)} />
+        <Route exact path="/" render={props => (user ? <ItemsScreen {...props} handleShoppingCartUpdated={handleShoppingCartUpdated} items={itemsToShow} /> : <LandingPage />)} />
+        <Route path='/:id' render={props => (
+          <ItemDetail handleDeleteItem={handleDeleteItem} handleUpdateItem={handleUpdateItem} user={user} {...props} />
+        )} />
+      </Switch>
     </>
   );
 }

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { getBaseApiUrl } from '../util/Settings'
 const baseUrl = `${getBaseApiUrl()}api/users`
+// const baseUrl = "http://localhost:3001/api/users"
 
 const getAll = () => {
   const req = axios.get(baseUrl)

@@ -3,3 +3,4 @@
 /requests
 # Local Netlify folder
 .netlify
+/seed/items.json
